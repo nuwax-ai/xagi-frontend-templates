@@ -17,12 +17,17 @@
 ```
 src/
 ├── components/     # 组件目录
-│   └── ui/        # Radix UI 基础组件 (27个组件)
+│   └── ui/        # Radix UI 基础组件 (28个组件)
 ├── lib/           # 工具库和配置
-│   ├── api.ts     # HTTP客户端配置
-│   ├── services.ts # API接口定义
-│   └── utils.ts   # 工具函数
-├── App.tsx        # 根组件
+│   ├── api.ts     # HTTP客户端 + extractApiData 工具函数
+│   ├── services.ts # useApi Hook (useCallback) + streamRequest
+│   └── utils.ts   # 工具函数 (cn, debounce, throttle, formatDate 等)
+├── pages/         # 页面组件
+│   ├── Home.tsx   # 首页
+│   └── NotFound.tsx # 404页面
+├── router/        # 路由配置
+│   └── index.tsx  # Hash 路由
+├── App.tsx        # 根组件 (RouterProvider)
 ├── main.tsx       # 应用入口
 └── index.css      # 全局样式 (Tailwind CSS)
 ```
@@ -71,9 +76,10 @@ pnpm run lint         # 运行ESLint检查
 
 ## API 调用
 1. 使用 `src/lib/api.ts` 中的 HTTP 客户端
-2. 在 `src/lib/services.ts` 中定义 API 接口
-3. 统一错误处理
-4. 使用 async/await 语法
+2. 使用 `extractApiData<T>()` 适配常见后端响应格式 `{ code, data, message }`
+3. 使用 `useApi` Hook 自动处理 loading/error 状态
+4. 使用 `streamRequest` 处理流式 SSE 响应
+5. 统一错误处理，使用 async/await 语法
 
 ## 样式开发
 1. 优先使用 Tailwind CSS 类

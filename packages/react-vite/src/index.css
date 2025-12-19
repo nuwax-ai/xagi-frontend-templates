@@ -149,19 +149,6 @@
 /* 工具类样式 */
 @layer utilities {
 
-  /* 间距工具类 */
-  .space-y-8> :not([hidden])~ :not([hidden]) {
-    @apply mt-8;
-  }
-
-  .space-y-6> :not([hidden])~ :not([hidden]) {
-    @apply mt-6;
-  }
-
-  .space-y-4> :not([hidden])~ :not([hidden]) {
-    @apply mt-4;
-  }
-
   /* 网格工具类 */
   .grid-auto-fit {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

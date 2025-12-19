@@ -74,13 +74,16 @@ export const exampleApi = {
     api.post<Data>('/api/data', data),
 };
 
-// 1. 常规数据获取
-const { data, loading, error } = useApi(() => exampleApi.getData(params));
+// 1. 常规数据获取 (useApi 使用 useCallback 优化)
+const { data, loading, error, refetch } = useApi(() => exampleApi.getData(params));
 
-// 2. 流式数据请求 (SSE)
+// 2. 从响应中提取数据 (适配 { code, data, message } 格式)
+import { extractApiData } from '@/lib/api';
+const result = extractApiData<MyData>(response);
+
+// 3. 流式数据请求 (SSE)
 await streamRequest('/api/stream', { prompt: '...' }, (res) => {
-  // res.data 是类型安全的
-  console.log(res.data);
+  console.log(res); // 泛型类型安全
 });
 ```
 

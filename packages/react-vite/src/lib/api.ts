@@ -6,15 +6,6 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 
-interface ApiResponse<T = any> {
-  success: boolean;
-  data: T;
-  message: string;
-}
-interface ApiError {
-  success: boolean;
-  message: string;
-}
 class ApiClient {
   private instance: AxiosInstance;
   constructor(baseURL: string = '') {
@@ -33,26 +24,20 @@ class ApiClient {
       (config: InternalAxiosRequestConfig) => {
         return config;
       },
-      (error: AxiosError<ApiError>) => {
+      (error: AxiosError) => {
         return Promise.reject(error);
       }
     );
     // 响应拦截器
     this.instance.interceptors.response.use(
-      (response: AxiosResponse<ApiResponse>) => {
-        const { success, data, message } = response.data;
-        // success仅代表接口调用是否成功，业务状态请关注data中的实际数据定义
-        if (!success) {
-          const error: ApiError = { success, message };
-          return Promise.reject(error);
-        }
-        return data;
+      (response: AxiosResponse) => {
+        return response;
       },
-      (error: AxiosError<ApiError>) => {
+      (error: AxiosError) => {
         if (error.response) {
           // 服务器返回错误状态码
-          const { status, data } = error.response;
-          console.error('API Error:', status, data?.message || error.message);
+          const { status } = error.response;
+          console.error('API Error:', status, error.message);
         } else if (error.request) {
           // 请求已经发出，但没有收到响应
           console.error('Network Error:', error.message);
@@ -64,49 +49,62 @@ class ApiClient {
       }
     );
   }
-  async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.instance.get(url, config);
+  async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.instance.get<T>(url, config);
   }
-  async post<T>(
+  async post<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
-  ): Promise<T> {
-    return this.instance.post(url, data, config);
+  ): Promise<AxiosResponse<T>> {
+    return this.instance.post<T>(url, data, config);
   }
-  async put<T>(
+  async put<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
-  ): Promise<T> {
-    return this.instance.put(url, data, config);
+  ): Promise<AxiosResponse<T>> {
+    return this.instance.put<T>(url, data, config);
   }
-  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.instance.delete(url, config);
+  async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.instance.delete<T>(url, config);
   }
-  async patch<T>(
+  async patch<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
-  ): Promise<T> {
-    return this.instance.patch(url, data, config);
+  ): Promise<AxiosResponse<T>> {
+    return this.instance.patch<T>(url, data, config);
   }
 }
 // 创建默认实例
 export const apiClient = new ApiClient();
-// 类型定义
-export type { ApiResponse, ApiError };
-// 便捷方法
+// 便捷方法 - 返回完整的 AxiosResponse，让调用方自行处理数据结构
 export const api = {
-  get: <T>(url: string, config?: AxiosRequestConfig) =>
+  get: <T = any>(url: string, config?: AxiosRequestConfig) =>
     apiClient.get<T>(url, config),
-  post: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+  post: <T = any>(url: string, data?: any, config?: AxiosRequestConfig) =>
     apiClient.post<T>(url, data, config),
-  put: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+  put: <T = any>(url: string, data?: any, config?: AxiosRequestConfig) =>
     apiClient.put<T>(url, data, config),
-  delete: <T>(url: string, config?: AxiosRequestConfig) =>
+  delete: <T = any>(url: string, config?: AxiosRequestConfig) =>
     apiClient.delete<T>(url, config),
-  patch: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
+  patch: <T = any>(url: string, data?: any, config?: AxiosRequestConfig) =>
     apiClient.patch<T>(url, data, config),
 };
+/**
+ * 从 API 响应中提取数据
+ * 适配常见后端格式：{ code: 0, data: {...}, message: 'ok' }
+ * @param response - Axios 响应对象
+ * @returns 提取的数据
+ */
+export function extractApiData<T = any>(response: AxiosResponse): T {
+  const data = response.data;
+  // 适配常见后端格式
+  if (data && typeof data === 'object' && 'data' in data) {
+    return data.data;
+  }
+  return data;
+}
+
 export default ApiClient;

@@ -87,14 +87,19 @@ pnpm clean            # 清理构建文件
 ```
 src/
 ├── components/        # 组件目录
-│   └── ui/           # Radix UI 基础组件
+│   └── ui/           # Radix UI 基础组件 (28个)
 ├── lib/              # 工具库和配置
-│   ├── api.ts        # HTTP客户端配置
-│   ├── services.ts   # API接口定义
-│   └── utils.ts      # 工具函数
-├── App.tsx           # 根组件
+│   ├── api.ts        # HTTP客户端 + extractApiData 工具
+│   ├── services.ts   # useApi Hook + streamRequest
+│   └── utils.ts      # 通用工具函数 (cn, debounce, throttle 等)
+├── pages/            # 页面组件
+│   ├── Home.tsx      # 首页
+│   └── NotFound.tsx  # 404页面
+├── router/           # 路由配置
+│   └── index.tsx     # Hash 路由配置
+├── App.tsx           # 根组件 (RouterProvider)
 ├── main.tsx          # 应用入口
-└── index.css         # 全局样式
+└── index.css         # 全局样式 + Tailwind 配置
 ```
 
 ## 🎨 UI 组件
@@ -141,21 +146,24 @@ export const Component: React.FC<ComponentProps> = ({ title, items, onAction }) 
 ### API 集成
 
 ```typescript
-// 在 services.ts 中定义新 API
+// 在 lib/api.ts 中定义 API
 export const exampleApi = {
   getData: (params: ListParams) => 
     api.get<ListResult<Data>>('/api/data', { params }),
-  
   createItem: (data: CreateData) => 
     api.post<Data>('/api/data', data),
 };
 
-// 1. 使用 useApi 获取数据 (自动处理 loading/error)
-const { data, loading, error } = useApi(() => exampleApi.getData(params));
+// 1. 使用 useApi 获取数据 (自动 loading/error，内部使用 useCallback)
+const { data, loading, error, refetch } = useApi(() => exampleApi.getData(params));
 
-// 2. 使用 streamRequest 处理流式响应 (SSE)
+// 2. 使用 extractApiData 适配后端响应格式
+import { extractApiData } from '@/lib/api';
+const result = extractApiData<MyData>(response); // 自动处理 { code, data, message }
+
+// 3. 使用 streamRequest 处理流式响应 (SSE)
 await streamRequest('/api/chat', { prompt: 'hello' }, (res) => {
-  console.log(res.data); // 实时接收数据
+  console.log(res); // 实时接收数据
 });
 ```
 
