@@ -44,6 +44,88 @@ pnpm build
 - ESLint 和 Prettier 预配置
 - TypeScript 严格模式启用
 
+## ⚠️ 代码生成规则（重要）
+
+生成代码时**必须**遵循以下规则：
+
+### 1. 文件位置规范
+| 类型 | 位置 | 说明 |
+|------|------|------|
+| 新页面 | `src/pages/XxxPage.tsx` | 需同步更新 `router/index.tsx` |
+| 新组件 | `src/components/XxxComponent.tsx` | 可复用的 UI 组件 |
+| API 函数 | `src/lib/api.ts` | 或创建专用的 `xxxApi.ts` |
+| 类型定义 | 文件内联定义 | 根据后端响应格式定义 |
+
+### 2. 类型使用规范
+```typescript
+// 在文件内定义类型（参考 examples/api-example.ts）
+interface ApiResponse<T = any> {
+  code: number;
+  data: T;
+  message: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+```
+
+### 3. API 调用规范
+```typescript
+// 定义 API
+const userApi = {
+  getList: async (params: ListParams) => {
+    const res = await api.get<ApiResponse<PaginatedResult<User>>>('/api/users', { params });
+    return extractApiData(res);
+  }
+};
+
+// 在组件中使用
+const { data, loading, error, refetch } = useApi(() => userApi.getList(params), [params]);
+```
+
+### 4. 表单开发规范
+```typescript
+// 1. 定义 Zod schema
+const schema = z.object({
+  name: z.string().min(2, '姓名至少2个字符'),
+  email: z.string().email('邮箱格式不正确'),
+});
+
+// 2. 使用 React Hook Form
+const form = useForm({ resolver: zodResolver(schema) });
+
+// 3. 使用 Form 组件
+<Form {...form}>
+  <FormField name="name" render={...} />
+</Form>
+```
+
+### 5. 样式规范
+- ✅ **使用** Tailwind CSS 类名
+- ✅ **使用** `cn()` 函数合并类名
+- ❌ **禁止** 内联 style 样式
+- ❌ **禁止** 在组件中写 CSS 文件
+
+### 6. 示例代码参考
+
+`src/examples/` 目录包含开发参考示例，**禁止直接用于生产环境**。
+
+#### 何时参考哪个示例
+
+| 开发场景 | 参考示例 | 关键内容 |
+|----------|----------|----------|
+| 需要调用后端 API | `api-example.ts` | 类型定义、API 函数封装、extractApiData 使用 |
+| 创建表单页面 | `form-example.tsx` | Zod 验证、useForm、FormField 组件用法 |
+| 创建数据列表页 | `list-page-example.tsx` | useApi 分页、搜索、CRUD 操作、加载/空状态 |
+
+#### 使用方式
+1. **阅读示例**了解代码模式和最佳实践
+2. **参考结构**创建自己的业务代码
+3. **不要直接复制**示例到生产环境
+
 ## 组件开发模式
 ```typescript
 // 创建新组件时的标准模式

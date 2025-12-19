@@ -88,6 +88,10 @@ pnpm clean            # 清理构建文件
 src/
 ├── components/        # 组件目录
 │   └── ui/           # Radix UI 基础组件 (28个)
+├── examples/         # 示例代码（仅供参考，禁止直接用于生产）
+│   ├── api-example.ts        # API 调用示例
+│   ├── form-example.tsx      # 表单组件示例
+│   └── list-page-example.tsx # 列表页面示例
 ├── lib/              # 工具库和配置
 │   ├── api.ts        # HTTP客户端 + extractApiData 工具
 │   ├── services.ts   # useApi Hook + streamRequest
@@ -223,6 +227,23 @@ pnpm build
 - 适当添加代码注释
 - 考虑性能和安全性
 - 保持代码风格一致
+
+## 📚 示例代码参考
+
+`src/examples/` 目录包含开发参考示例，**禁止直接用于生产环境**。
+
+### 何时参考哪个示例
+
+| 开发场景 | 参考示例 | 关键内容 |
+|----------|----------|----------|
+| 需要调用后端 API | `api-example.ts` | 类型定义、API 函数封装、extractApiData 使用 |
+| 创建表单页面 | `form-example.tsx` | Zod 验证、useForm、FormField 组件用法 |
+| 创建数据列表页 | `list-page-example.tsx` | useApi 分页、搜索、CRUD 操作、加载/空状态 |
+
+### 使用方式
+1. **阅读示例** - 了解代码模式和最佳实践
+2. **参考结构** - 创建自己的业务代码
+3. **不要直接复制** - 示例仅供参考，禁止直接用于生产环境
 
 ## 📄 许可证
 

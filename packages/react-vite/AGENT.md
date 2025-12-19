@@ -18,6 +18,10 @@
 src/
 ├── components/     # 组件目录
 │   └── ui/        # Radix UI 基础组件 (28个组件)
+├── examples/      # 示例代码（供参考）
+│   ├── api-example.ts      # API 调用示例
+│   ├── form-example.tsx    # 表单组件示例
+│   └── list-page-example.tsx # 列表页面示例
 ├── lib/           # 工具库和配置
 │   ├── api.ts     # HTTP客户端 + extractApiData 工具函数
 │   ├── services.ts # useApi Hook (useCallback) + streamRequest
@@ -31,6 +35,74 @@ src/
 ├── main.tsx       # 应用入口
 └── index.css      # 全局样式 (Tailwind CSS)
 ```
+
+## ⚠️ 代码生成规则（重要）
+
+生成代码时**必须**遵循以下规则：
+
+### 文件位置
+| 类型 | 位置 | 说明 |
+|------|------|------|
+| 页面 | `src/pages/` | 创建后需更新 `router/index.tsx` |
+| 组件 | `src/components/` | 可复用的 UI 组件 |
+| API 函数 | `src/lib/api.ts` 或新建专用文件 | 使用 `extractApiData` 处理响应 |
+| 类型定义 | 示例文件内联定义 | 根据后端响应格式定义 |
+
+### 类型使用
+```typescript
+// ✅ 正确：在文件内定义类型（参考 examples/api-example.ts）
+interface ApiResponse<T = any> {
+  code: number;
+  data: T;
+  message: string;
+}
+
+// ✅ 正确：API 响应处理
+const response = await api.get<ApiResponse<User>>('/api/user');
+const user = extractApiData<User>(response);
+```
+
+### API 调用模式
+```typescript
+// ✅ 正确：使用 useApi hook
+const { data, loading, error, refetch } = useApi(() => userApi.getList(params), [params]);
+
+// ✅ 正确：流式请求
+await streamRequest<ChatMessage>(url, payload, (msg) => { ... });
+```
+
+### 表单开发
+```typescript
+// ✅ 正确：使用 Zod + React Hook Form
+const schema = z.object({ name: z.string().min(1) });
+const form = useForm({ resolver: zodResolver(schema) });
+```
+
+### 样式规范
+```tsx
+// ✅ 正确：使用 Tailwind CSS
+<div className="flex items-center gap-4 p-6 bg-white rounded-lg shadow">
+
+// ❌ 错误：内联样式
+<div style={{ display: 'flex' }}>
+```
+
+### 示例代码参考
+
+`src/examples/` 目录包含开发参考示例，**禁止直接用于生产环境**。
+
+#### 何时参考哪个示例
+
+| 开发场景 | 参考示例 | 关键内容 |
+|----------|----------|----------|
+| 需要调用后端 API | `api-example.ts` | 类型定义、API 函数封装、extractApiData 使用 |
+| 创建表单页面 | `form-example.tsx` | Zod 验证、useForm、FormField 组件用法 |
+| 创建数据列表页 | `list-page-example.tsx` | useApi 分页、搜索、CRUD 操作、加载/空状态 |
+
+#### 使用方式
+1. **阅读示例**了解代码模式和最佳实践
+2. **参考结构**创建自己的业务代码
+3. **不要直接复制**示例到生产环境
 
 ## 开发命令
 ```bash
