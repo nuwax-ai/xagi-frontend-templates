@@ -1,4 +1,4 @@
-# XAGI Frontend Templates
+# 网页应用开发模版
 
 这个仓库包含了 XAGI Frontend MCP 服务器使用的各种前端项目模板，采用 monorepo 架构统一管理。
 
