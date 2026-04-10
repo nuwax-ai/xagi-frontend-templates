@@ -1,4 +1,4 @@
-/* 主容器样式 */
+/* App shell */
 .app-container {
   min-height: 100vh;
   background: #fff;
@@ -9,7 +9,7 @@
   justify-content: center;
 }
 
-/* 主标题区域 */
+/* Hero */
 .hero-section {
   text-align: center;
   margin-bottom: 2rem;
@@ -29,7 +29,7 @@
   font-weight: 300;
 }
 
-/* 主要内容区域 */
+/* Main column */
 .main-content {
   max-width: 1000px;
   margin: 0 auto;
@@ -39,7 +39,7 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* 步骤区域 */
+/* Steps grid */
 .steps-section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -85,7 +85,7 @@
 }
 
 
-/* 提示信息区域 */
+/* Prompt / CTA card */
 .prompt-section {
   background: white;
   border-radius: 16px;
@@ -132,7 +132,7 @@
   font-size: 1rem;
 }
 
-/* 响应式设计 */
+/* Responsive tweaks */
 @media (max-width: 768px) {
   .app-container {
     padding: 1rem;

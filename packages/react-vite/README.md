@@ -1,136 +1,141 @@
-# React + Vite + TypeScript 模板
+# React + Vite + TypeScript Template
 
-一个现代化的 React 18 + Vite + TypeScript 项目模板，专为 AI 自动化开发优化。
+A modern React 18 + Vite + TypeScript project template, optimized for AI-assisted development.
 
-## 🚀 快速开始
+## Quick start
 
-### 前置要求
+### Prerequisites
 
 - **Node.js** >= 18.0.0
-- **pnpm** >= 8.0.0 (强制要求)
+- **pnpm** >= 8.0.0 (required)
 
-### 安装 pnpm
+### Install pnpm
 
-如果还没有安装 pnpm，请先安装：
+If pnpm is not installed yet:
 
 ```bash
-# 使用 npm 安装 pnpm
+# Install pnpm with npm
 npm install -g pnpm
 
-# 或使用其他方式安装
+# Or use the official installer
 # curl -fsSL https://get.pnpm.io/install.sh | sh -
 ```
 
-### 项目设置
+### Project setup
 
 ```bash
-# 1. 安装依赖 (必须使用 pnpm)
+# 1. Install dependencies (pnpm only)
 pnpm install
 
-# 2. 启动开发服务器
+# 2. Start the dev server
 pnpm dev
 
-# 3. 构建生产版本
+# 3. Production build
 pnpm build
 
-# 4. 预览生产版本
+# 4. Preview production build
 pnpm preview
 ```
 
-## 📦 包管理要求
+## Package manager
 
-**⚠️ 重要：本项目强制要求使用 pnpm 作为包管理器**
+**This project requires pnpm.**
 
-- ❌ **禁止使用** `npm` 或 `yarn` 进行依赖管理
-- ✅ **必须使用** `pnpm` 进行所有包管理操作
-- 🔒 项目配置已针对 pnpm 优化
+- Do **not** use `npm` or `yarn` for dependency management.
+- Use **pnpm** for all install / add / remove operations.
+- Tooling is tuned for pnpm.
 
-### 为什么使用 pnpm？
+### Why pnpm?
 
-- **更快的安装速度** - 比 npm 快 2-3 倍
-- **节省磁盘空间** - 使用硬链接共享依赖
-- **更严格的依赖管理** - 避免幽灵依赖问题
-- **更好的 monorepo 支持** - 原生支持 workspace
+- **Faster installs** — often 2–3× faster than npm
+- **Less disk usage** — content-addressable store and hard links
+- **Stricter dependency graph** — fewer phantom dependency issues
+- **Strong monorepo support** — workspaces out of the box
 
-## 🛠️ 可用脚本
+## Scripts
 
 ```bash
-# 开发相关
-pnpm dev              # 启动开发服务器
-pnpm build            # 构建生产版本
-pnpm preview          # 预览生产版本
+# Development
+pnpm dev              # Dev server
+pnpm build            # Production build
+pnpm preview          # Preview production build
 
-# 代码质量
-pnpm lint             # 运行 ESLint 检查
-pnpm lint:fix         # 自动修复 ESLint 问题
-pnpm type-check       # TypeScript 类型检查
-pnpm format           # 格式化代码
-pnpm format:check     # 检查代码格式
+# Quality
+pnpm lint             # ESLint
+pnpm lint:fix         # ESLint with auto-fix
+pnpm type-check       # TypeScript check
+pnpm format           # Prettier write
+pnpm format:check     # Prettier check
 
-# 工具
-pnpm clean            # 清理构建文件
+# Utilities
+pnpm clean            # Remove dist
 ```
 
-## 🏗️ 技术栈
+## Stack
 
-- **框架**: React 18
-- **构建工具**: Vite
-- **语言**: TypeScript
-- **样式**: Tailwind CSS
-- **UI组件**: Radix UI (27个组件)
-- **表单管理**: React Hook Form + Zod
-- **HTTP客户端**: Axios
-- **包管理**: pnpm
+- **Framework**: React 18
+- **Bundler**: Vite
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI**: Radix UI (27 primitives)
+- **Forms**: React Hook Form + Zod
+- **HTTP**: Axios
+- **Package manager**: pnpm
 
-## 📁 项目结构
+## Project layout
 
 ```
 src/
-├── components/        # 组件目录
-│   └── ui/           # Radix UI 基础组件 (28个)
-├── examples/         # 示例代码（仅供参考，禁止直接用于生产）
-│   ├── api-example.ts        # API 调用示例
-│   ├── form-example.tsx      # 表单组件示例
-│   └── list-page-example.tsx # 列表页面示例
-├── lib/              # 工具库和配置
-│   ├── api.ts        # HTTP客户端 + extractApiData 工具
-│   ├── services.ts   # useApi Hook + streamRequest
-│   └── utils.ts      # 通用工具函数 (cn, debounce, throttle 等)
-├── pages/            # 页面组件
-│   ├── Home.tsx      # 首页
-│   └── NotFound.tsx  # 404页面
-├── router/           # 路由配置
-│   └── index.tsx     # Hash 路由配置
-├── App.tsx           # 根组件 (RouterProvider)
-├── main.tsx          # 应用入口
-└── index.css         # 全局样式 + Tailwind 配置
+├── components/        # Shared components
+│   └── ui/           # Radix-based UI primitives (28)
+├── examples/         # Reference only — not for production copy-paste
+│   ├── api-example.ts
+│   ├── form-example.tsx
+│   └── list-page-example.tsx
+├── lib/              # Utilities and API client
+│   ├── api.ts        # HTTP client + extractApiData
+│   ├── services.ts   # useApi + streamRequest
+│   └── utils.ts      # cn, debounce, throttle, etc.
+├── pages/            # Route-level pages
+│   ├── Home.tsx
+│   └── NotFound.tsx
+├── router/
+│   └── index.tsx     # Hash router
+├── App.tsx           # Root (RouterProvider)
+├── main.tsx          # Entry
+└── index.css         # Global styles + Tailwind
 ```
 
-## 🎨 UI 组件
+## UI primitives
 
-项目包含完整的 Radix UI 组件库（27个组件）：
+Radix-based set (27 components):
 
-### 布局和导航
-- Accordion, Collapsible, Navigation Menu, Menubar, Tabs, Separator
+### Layout & navigation
 
-### 数据显示
-- Avatar, Card, Progress, Scroll Area, Aspect Ratio
+Accordion, Collapsible, Navigation Menu, Menubar, Tabs, Separator
 
-### 表单控件
-- Button, Checkbox, Input, Label, Radio Group, Select, Slider, Switch, Textarea, Toggle, Toggle Group
+### Data display
 
-### 覆盖层和对话框
-- Alert Dialog, Dialog, Dropdown Menu, Popover, Tooltip
+Avatar, Card, Progress, Scroll Area, Aspect Ratio
 
-### 表单系统
-- Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage
+### Form controls
 
-## 🔧 开发指南
+Button, Checkbox, Input, Label, Radio Group, Select, Slider, Switch, Textarea, Toggle, Toggle Group
 
-### 组件开发
+### Overlays
+
+Alert Dialog, Dialog, Dropdown Menu, Popover, Tooltip
+
+### Form system
+
+Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage
+
+## Development notes
+
+### Components
 
 ```typescript
-// 创建新组件时的标准模式
+// Typical component shape
 interface ComponentProps {
   title: string;
   items: Item[];
@@ -141,118 +146,106 @@ export const Component: React.FC<ComponentProps> = ({ title, items, onAction }) 
   return (
     <div className="component">
       <h2>{title}</h2>
-      {/* 组件内容 */}
+      {/* ... */}
     </div>
   );
 };
 ```
 
-### API 集成
+### API usage
 
 ```typescript
-// 在 lib/api.ts 中定义 API
+// Define calls in lib/api.ts (or a dedicated module)
 export const exampleApi = {
-  getData: (params: ListParams) => 
+  getData: (params: ListParams) =>
     api.get<ListResult<Data>>('/api/data', { params }),
-  createItem: (data: CreateData) => 
-    api.post<Data>('/api/data', data),
+  createItem: (data: CreateData) => api.post<Data>('/api/data', data),
 };
 
-// 1. 使用 useApi 获取数据 (自动 loading/error，内部使用 useCallback)
+// 1. useApi — loading/error + refetch (useCallback inside)
 const { data, loading, error, refetch } = useApi(() => exampleApi.getData(params));
 
-// 2. 使用 extractApiData 适配后端响应格式
+// 2. extractApiData — unwrap { code, data, message }
 import { extractApiData } from '@/lib/api';
-const result = extractApiData<MyData>(response); // 自动处理 { code, data, message }
+const result = extractApiData<MyData>(response);
 
-// 3. 使用 streamRequest 处理流式响应 (SSE)
+// 3. streamRequest — SSE-style streams
 await streamRequest('/api/chat', { prompt: 'hello' }, (res) => {
-  console.log(res); // 实时接收数据
+  console.log(res);
 });
 ```
 
-### 表单开发
+### Forms
 
 ```typescript
-// 使用 React Hook Form + Zod
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
 const formSchema = z.object({
-  email: z.string().email("无效的邮箱地址"),
-  password: z.string().min(8, "密码至少需要8个字符"),
-})
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+});
 
 export function UserForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { email: "", password: "" },
-  })
+    defaultValues: { email: '', password: '' },
+  });
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        {/* 表单字段 */}
-      </form>
+      <form onSubmit={form.handleSubmit(onSubmit)}>{/* fields */}</form>
     </Form>
-  )
+  );
 }
 ```
 
-## 📝 代码规范
+## Conventions
 
-- 使用 TypeScript 严格模式
-- 遵循 React 函数组件最佳实践
-- 使用 Tailwind CSS 进行样式设计
-- 组件文件使用 PascalCase 命名
-- 工具函数使用 camelCase 命名
+- TypeScript strict mode
+- Function components and hooks
+- Tailwind for styling
+- `PascalCase` components, `camelCase` utilities
 
-## 🚀 部署
+## Deploy
 
 ```bash
-# 构建生产版本
 pnpm build
-
-# 构建文件将生成在 dist/ 目录
-# 可以部署到任何静态文件服务器
+# Output: dist/ — deploy to any static host
 ```
 
-## 🤖 AI 开发提示
+## AI assistants
 
-本项目专为 AI 代码开发助手优化：
+This template is structured for codegen tools:
 
-- 优先考虑代码可读性和维护性
-- 遵循项目现有架构和设计模式
-- 适当添加代码注释
-- 考虑性能和安全性
-- 保持代码风格一致
+- Prefer clarity and consistency with existing patterns
+- Match architecture and naming in the repo
+- Comment non-obvious logic
+- Consider performance and security
 
-## 📚 示例代码参考
+## Example files
 
-`src/examples/` 目录包含开发参考示例，**禁止直接用于生产环境**。
+Under `src/examples/` — **reference only**, not production-ready drop-ins.
 
-### 何时参考哪个示例
+| Goal              | File                     | Highlights                                      |
+| ----------------- | ------------------------ | ----------------------------------------------- |
+| Backend API calls | `api-example.ts`         | Types, wrappers, `extractApiData`               |
+| Forms             | `form-example.tsx`       | Zod, `useForm`, `FormField`                     |
+| List / CRUD UI    | `list-page-example.tsx`  | `useApi`, pagination, search, loading / empty  |
 
-| 开发场景 | 参考示例 | 关键内容 |
-|----------|----------|----------|
-| 需要调用后端 API | `api-example.ts` | 类型定义、API 函数封装、extractApiData 使用 |
-| 创建表单页面 | `form-example.tsx` | Zod 验证、useForm、FormField 组件用法 |
-| 创建数据列表页 | `list-page-example.tsx` | useApi 分页、搜索、CRUD 操作、加载/空状态 |
+1. Read for patterns  
+2. Reuse structure in your own code  
+3. Do not copy verbatim into production  
 
-### 使用方式
-1. **阅读示例** - 了解代码模式和最佳实践
-2. **参考结构** - 创建自己的业务代码
-3. **不要直接复制** - 示例仅供参考，禁止直接用于生产环境
-
-## 📄 许可证
+## License
 
 MIT License
 
-## 👥 贡献
+## Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Issues and pull requests are welcome.
 
 ---
 
-**记住：始终使用 pnpm 进行包管理操作！** 🎯
+**Always use pnpm for package management.**

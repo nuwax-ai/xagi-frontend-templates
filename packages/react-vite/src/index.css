@@ -56,7 +56,7 @@
     @apply bg-white text-gray-900;
   }
 
-  /* 自定义滚动条样式 */
+  /* Custom scrollbar */
   ::-webkit-scrollbar {
     @apply w-2;
   }
@@ -73,26 +73,26 @@
     @apply bg-gray-400;
   }
 
-  /* 选择文本样式 */
+  /* Text selection */
   ::selection {
     @apply bg-blue-100 text-blue-900;
   }
 
-  /* 焦点样式 */
+  /* Focus ring */
   :focus-visible {
     @apply outline-none ring-2 ring-blue-500 ring-offset-2;
   }
 }
 
-/* 组件样式 */
+/* Component-layer utilities */
 @layer components {
 
-  /* 容器样式 */
+  /* Page container */
   .container {
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
-  /* 按钮变体样式 */
+  /* Button-style helpers */
   .btn-primary {
     @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
   }
@@ -105,7 +105,7 @@
     @apply border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-blue-500;
   }
 
-  /* 卡片样式 */
+  /* Card helpers */
   .card {
     @apply rounded-lg border border-gray-200 bg-white shadow-sm;
   }
@@ -114,7 +114,7 @@
     @apply transition-shadow hover:shadow-md;
   }
 
-  /* 输入框样式 */
+  /* Input helpers */
   .input {
     @apply flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm;
   }
@@ -123,7 +123,7 @@
     @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
   }
 
-  /* 文本样式 */
+  /* Typography helpers */
   .text-balance {
     text-wrap: balance;
   }
@@ -132,7 +132,7 @@
     @apply bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent;
   }
 
-  /* 动画样式 */
+  /* Animation helpers */
   .animate-fade-in {
     animation: fadeIn 0.5s ease-in-out;
   }
@@ -146,10 +146,10 @@
   }
 }
 
-/* 工具类样式 */
+/* Extra utilities */
 @layer utilities {
 
-  /* 网格工具类 */
+  /* Grid helpers */
   .grid-auto-fit {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
@@ -158,7 +158,7 @@
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 
-  /* 响应式工具类 */
+  /* Responsive visibility */
   .mobile-only {
     @apply block sm:hidden;
   }
@@ -167,12 +167,12 @@
     @apply hidden sm:block;
   }
 
-  /* 暗色模式工具类 */
+  /* Dark mode surface */
   .dark-mode {
     @apply dark:bg-gray-900 dark:text-gray-100;
   }
 
-  /* 打印样式 */
+  /* Print */
   @media print {
     .print-hidden {
       @apply hidden;
@@ -184,7 +184,7 @@
   }
 }
 
-/* 关键帧动画 */
+/* Keyframes */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -231,21 +231,21 @@
   }
 }
 
-/* 暗色模式样式 */
+/* Dark color-scheme hint */
 @media (prefers-color-scheme: dark) {
   .dark-mode {
     @apply bg-gray-900 text-gray-100;
   }
 }
 
-/* 高对比度模式 */
+/* High contrast */
 @media (prefers-contrast: high) {
   .high-contrast {
     @apply border-2 border-black;
   }
 }
 
-/* 减少动画模式 */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
 
   *,

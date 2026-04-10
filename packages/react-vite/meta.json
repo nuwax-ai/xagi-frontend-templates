@@ -1,9 +1,9 @@
 {
   "name": "React + Vite",
-  "description": "基于 React 18 + Vite 的现代化前端项目模板",
+  "description": "Modern React 18 + Vite frontend project template",
   "version": "1.1.0",
   "author": "XAGI Team",
-  "features": ["React 18", "Vite", "TypeScript", "ESLint", "Prettier", "热重载"],
+  "features": ["React 18", "Vite", "TypeScript", "ESLint", "Prettier", "HMR"],
   "keywords": ["react", "vite", "typescript", "frontend", "spa"],
   "category": "frontend",
   "framework": "react",

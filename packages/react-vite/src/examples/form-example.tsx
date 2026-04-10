@@ -1,6 +1,6 @@
 /**
- * 表单组件示例
- * Code Agent 可参考此文件生成类似的表单组件
+ * Form reference — React Hook Form + Zod + shadcn-style Form primitives.
+ * Agents can copy patterns, not this file wholesale, into production code.
  */
 
 import { useForm } from 'react-hook-form';
@@ -21,20 +21,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 
 // ============================================
-// 1. 定义 Zod 验证模式
+// 1. Zod schema
 // ============================================
 
 const userFormSchema = z.object({
-    name: z.string().min(2, '姓名至少2个字符').max(50, '姓名最多50个字符'),
-    email: z.string().email('请输入有效的邮箱地址'),
-    role: z.enum(['admin', 'user'], { required_error: '请选择角色' }),
-    agreeTerms: z.boolean().refine(val => val === true, '请同意服务条款'),
+    name: z.string().min(2, 'Name must be at least 2 characters').max(50, 'Name must be at most 50 characters'),
+    email: z.string().email('Enter a valid email address'),
+    role: z.enum(['admin', 'user'], { required_error: 'Select a role' }),
+    agreeTerms: z.boolean().refine(val => val === true, 'You must accept the terms'),
 });
 
 type UserFormValues = z.infer<typeof userFormSchema>;
 
 // ============================================
-// 2. 表单组件
+// 2. Form component
 // ============================================
 
 interface UserFormProps {
@@ -60,60 +60,60 @@ export function UserFormExample({ defaultValues, onSubmit, loading }: UserFormPr
             await onSubmit(data);
             form.reset();
         } catch (error) {
-            console.error('表单提交失败:', error);
+            console.error('Form submit failed:', error);
         }
     };
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-                {/* 文本输入 */}
+                {/* Text input */}
                 <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>姓名</FormLabel>
+                            <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="请输入姓名" {...field} />
+                                <Input placeholder="Your name" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                {/* 邮箱输入 */}
+                {/* Email */}
                 <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>邮箱</FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input type="email" placeholder="请输入邮箱" {...field} />
+                                <Input type="email" placeholder="you@example.com" {...field} />
                             </FormControl>
-                            <FormDescription>我们不会公开您的邮箱地址</FormDescription>
+                            <FormDescription>We will never share your email.</FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                {/* 下拉选择 */}
+                {/* Select */}
                 <FormField
                     control={form.control}
                     name="role"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>角色</FormLabel>
+                            <FormLabel>Role</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="选择角色" />
+                                        <SelectValue placeholder="Choose a role" />
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="user">普通用户</SelectItem>
-                                    <SelectItem value="admin">管理员</SelectItem>
+                                    <SelectItem value="user">User</SelectItem>
+                                    <SelectItem value="admin">Admin</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />
@@ -121,7 +121,7 @@ export function UserFormExample({ defaultValues, onSubmit, loading }: UserFormPr
                     )}
                 />
 
-                {/* 复选框 */}
+                {/* Checkbox */}
                 <FormField
                     control={form.control}
                     name="agreeTerms"
@@ -131,14 +131,14 @@ export function UserFormExample({ defaultValues, onSubmit, loading }: UserFormPr
                                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                             </FormControl>
                             <div className="space-y-1 leading-none">
-                                <FormLabel>我同意服务条款和隐私政策</FormLabel>
+                                <FormLabel>I agree to the terms and privacy policy</FormLabel>
                             </div>
                         </FormItem>
                     )}
                 />
 
                 <Button type="submit" disabled={loading}>
-                    {loading ? '提交中...' : '提交'}
+                    {loading ? 'Submitting…' : 'Submit'}
                 </Button>
             </form>
         </Form>

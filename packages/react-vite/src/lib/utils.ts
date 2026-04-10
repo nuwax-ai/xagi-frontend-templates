@@ -2,26 +2,25 @@ import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 /**
- * 合并 Tailwind CSS 类名的工具函数
- * @param inputs - 类名数组或对象
- * @returns 合并后的类名字符串
+ * Merge Tailwind classes with `tailwind-merge` deduping.
+ * @param inputs - Class values (strings, objects, arrays)
+ * @returns Single class string
  */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 /**
- * 格式化日期
- * @param date - 日期对象或字符串
- * @param options - 格式化选项
- * @returns 格式化后的日期字符串
+ * Format a date for display (locale-aware).
+ * @param date - `Date` or ISO string
+ * @param options - `Intl.DateTimeFormat` options
  */
 export function formatDate(
   date: Date | string,
   options: Intl.DateTimeFormatOptions = {}
 ): string {
   const dateObj = typeof date === 'string' ? new Date(date) : date;
-  return new Intl.DateTimeFormat('zh-CN', {
+  return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -30,22 +29,20 @@ export function formatDate(
 }
 
 /**
- * 格式化数字
- * @param num - 数字
- * @param options - 格式化选项
- * @returns 格式化后的数字字符串
+ * Format a number for display.
+ * @param num - Numeric value
+ * @param options - `Intl.NumberFormat` options
  */
 export function formatNumber(
   num: number,
   options: Intl.NumberFormatOptions = {}
 ): string {
-  return new Intl.NumberFormat('zh-CN', options).format(num);
+  return new Intl.NumberFormat('en-US', options).format(num);
 }
 
 /**
- * 生成随机 ID
- * @param length - ID 长度
- * @returns 随机 ID 字符串
+ * Random alphanumeric id.
+ * @param length - Character count
  */
 export function generateId(length: number = 8): string {
   const chars =
@@ -58,10 +55,7 @@ export function generateId(length: number = 8): string {
 }
 
 /**
- * 防抖函数
- * @param func - 要防抖的函数
- * @param wait - 等待时间（毫秒）
- * @returns 防抖后的函数
+ * Debounce a function by `wait` ms.
  */
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
@@ -75,10 +69,7 @@ export function debounce<T extends (...args: any[]) => any>(
 }
 
 /**
- * 节流函数
- * @param func - 要节流的函数
- * @param limit - 时间限制（毫秒）
- * @returns 节流后的函数
+ * Throttle a function to at most once per `limit` ms.
  */
 export function throttle<T extends (...args: any[]) => any>(
   func: T,
@@ -94,27 +85,19 @@ export function throttle<T extends (...args: any[]) => any>(
   };
 }
 
-/**
- * 检查是否为移动设备
- * @returns 是否为移动设备
- */
+/** `true` when viewport width is below the Tailwind `md` breakpoint. */
 export function isMobile(): boolean {
   if (typeof window === 'undefined') return false;
   return window.innerWidth < 768;
 }
 
-/**
- * 检查是否为暗色模式
- * @returns 是否为暗色模式
- */
+/** `true` when `<html>` has the `dark` class. */
 export function isDarkMode(): boolean {
   if (typeof window === 'undefined') return false;
   return document.documentElement.classList.contains('dark');
 }
 
-/**
- * 切换暗色模式
- */
+/** Toggle `dark` on `<html>` and persist to `localStorage`. */
 export function toggleDarkMode(): void {
   if (typeof window === 'undefined') return;
   document.documentElement.classList.toggle('dark');
@@ -124,9 +107,7 @@ export function toggleDarkMode(): void {
   );
 }
 
-/**
- * 初始化暗色模式
- */
+/** Apply saved or system dark preference on load. */
 export function initDarkMode(): void {
   if (typeof window === 'undefined') return;
   const saved = localStorage.getItem('darkMode');

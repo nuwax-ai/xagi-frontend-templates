@@ -1,19 +1,18 @@
-// React Hook 封装示例
+// React Hook helpers for data fetching and streaming
 import { useState, useEffect, useCallback } from 'react';
 import { fetchEventSource, EventSourceMessage } from '@microsoft/fetch-event-source';
 
 /**
- * 通用 API 请求 Hook
- * 主要用于处理 GET 请求等需要获取数据的场景，自动处理 loading 和 error 状态。
- * 
- * 特性：
- * 1. 自动处理 loading 状态
- * 2. 统一错误处理：将各种错误（包括 ApiError）标准化为 Error 对象
- * 3. 支持依赖刷新
- * 
- * @param apiCall - 返回 Promise 的 API 调用函数
- * @param deps - 依赖数组，类似 useEffect 的 deps。默认 []，即组件挂载时调用一次。
- * 
+ * Generic async data hook — loading / error / refetch for any `Promise` API.
+ *
+ * Features:
+ * 1. Tracks `loading` around the call
+ * 2. Normalizes thrown values to `Error` (including plain API error objects)
+ * 3. Re-runs when `deps` change (same semantics as `useEffect`)
+ *
+ * @param apiCall - Zero-arg function returning a Promise
+ * @param deps - Dependency list; default `[]` runs once on mount
+ *
  * @example
  * const { data, loading, error } = useApi(() => userApi.getUserInfo());
  */
@@ -33,7 +32,7 @@ export function useApi<T>(
       const result = await apiCall();
       setData(result);
     } catch (err: any) {
-      // 统一错误处理：如果是 ApiError (plain object) 则转换为 Error 对象
+      // Normalize non-Error throws (e.g. plain `{ message }`) to Error
       const errorObj = err instanceof Error ? err : new Error(err?.message || 'Unknown error');
       setError(errorObj);
     } finally {
@@ -50,19 +49,18 @@ export function useApi<T>(
 }
 
 /**
- * 流式响应数据结构 - 通用类型，可根据实际接口调整
- * 使用泛型 T 允许任意数据结构，不强制特定字段
+ * Payload shape for streamed chunks — generic so each endpoint can differ.
  */
 export type StreamResponse<T = any> = T;
 
 
 
 /**
- * 流式接口调用示例
- * @param url 请求地址
- * @param data 请求数据
- * @param onData 接收到数据时的回调
- * @param onError 发生错误时的回调
+ * POST + SSE-style stream via `@microsoft/fetch-event-source`.
+ * @param url - Endpoint URL
+ * @param data - JSON body
+ * @param onData - Called for each parsed message
+ * @param onError - Optional error handler
  */
 export async function streamRequest<T>(
   url: string,
@@ -82,7 +80,7 @@ export async function streamRequest<T>(
           throw new Error(msg.data);
         }
         try {
-          // 解析为任意结构，不强制特定格式
+          // Parse arbitrary JSON per chunk; no fixed schema
           const parsed = JSON.parse(msg.data) as StreamResponse<T>;
           onData(parsed);
         } catch (e) {
@@ -95,7 +93,7 @@ export async function streamRequest<T>(
         } else {
           console.error('Stream request failed:', err);
         }
-        // 抛出错误以停止重试
+        // Rethrow stops the library from retrying forever
         throw err;
       }
     });

@@ -3,16 +3,15 @@ import Home from '@/pages/Home';
 import NotFound from '@/pages/NotFound';
 
 /**
- * 路由配置
- * 使用 HashRouter（hash 模式）
- * 路由路径格式：/#/ 等
+ * Hash-based routing (createHashRouter).
+ * URLs look like `/#/…` and need no server rewrite rules.
  *
- * Hash 模式的优点：
- * - 不需要服务器配置，可以在任何路径下部署
- * - URL 中的 hash 部分不会发送到服务器
- * - 适合静态部署和 CDN 部署
+ * Why hash mode:
+ * - Works on any static host without extra server config
+ * - The fragment is not sent to the server
+ * - Handy for static sites and CDNs
  *
- * 添加新路由：
+ * Add a route:
  * {
  *   path: '/your-path',
  *   element: <YourComponent />,

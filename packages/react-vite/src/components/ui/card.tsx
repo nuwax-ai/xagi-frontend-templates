@@ -1,27 +1,26 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
-// 卡片属性接口
+// Root card container props
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-// 卡片标题属性接口
+// Header region props
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-// 卡片内容属性接口
+// Main body props
 export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-// 卡片页脚属性接口
+// Footer region props
 export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-// 卡片标题属性接口
+// Title typography props
 export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 
-// 卡片描述属性接口
+// Subtitle / description props
 export interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
 
 /**
- * 卡片组件
- * 用于展示相关内容和操作
+ * Card — groups related content and actions.
  */
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, ...props }, ref) => (
@@ -37,9 +36,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 );
 Card.displayName = 'Card';
 
-/**
- * 卡片头部组件
- */
+/** Top section inside a card (title + description). */
 const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, ...props }, ref) => (
     <div
@@ -51,9 +48,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
 );
 CardHeader.displayName = 'CardHeader';
 
-/**
- * 卡片标题组件
- */
+/** Card heading. */
 const CardTitle = React.forwardRef<HTMLParagraphElement, CardTitleProps>(
   ({ className, ...props }, ref) => (
     <h3
@@ -68,9 +63,7 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, CardTitleProps>(
 );
 CardTitle.displayName = 'CardTitle';
 
-/**
- * 卡片描述组件
- */
+/** Muted supporting text below the title. */
 const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(
   ({ className, ...props }, ref) => (
     <p
@@ -82,9 +75,7 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionPr
 );
 CardDescription.displayName = 'CardDescription';
 
-/**
- * 卡片内容组件
- */
+/** Primary content area. */
 const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
@@ -92,9 +83,7 @@ const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
 );
 CardContent.displayName = 'CardContent';
 
-/**
- * 卡片页脚组件
- */
+/** Footer actions row. */
 const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, ...props }, ref) => (
     <div

@@ -1,41 +1,41 @@
-# 依赖
+# Dependencies
 node_modules/
 
-# 构建输出
+# Build output
 dist/
 build/
 *.local
 
-# 配置文件
+# Config (often generated or tooling-specific)
 *.config.js
 *.config.ts
 vite.config.ts
 
-# 日志
+# Logs
 *.log
 
-# 环境变量
+# Environment files
 .env*
 
-# 缓存
+# Caches
 .cache/
 .parcel-cache/
 
-# 覆盖率报告
+# Coverage
 coverage/
 
-# 临时文件
+# Temp
 tmp/
 temp/
 
-# 操作系统文件
+# OS
 .DS_Store
 Thumbs.db
 
-# 编辑器文件
+# Editors
 .vscode/
 .idea/
 
-# 其他
+# Minified assets
 *.min.js
 *.min.css

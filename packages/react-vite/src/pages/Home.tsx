@@ -5,28 +5,28 @@ import {
 } from 'lucide-react';
 
 /**
- * 首页组件
- * 展示应用页面开发助手的主要功能和使用说明
+ * Home page — marketing-style placeholder for the template.
+ * Replace with your real landing or app shell.
  */
 function Home() {
 
   const steps = [
     {
       number: '1',
-      title: '说出想法',
-      description: '在左下角对话框输入您的需求',
+      title: 'Describe',
+      description: 'Tell the assistant what you want in plain language',
       icon: MessageCircle,
     },
     {
       number: '2',
-      title: 'AI 制作',
-      description: 'AI 自动制作网页功能',
+      title: 'Build',
+      description: 'Let AI scaffold UI and logic for you',
       icon: Cpu,
     },
     {
       number: '3',
-      title: '查看效果',
-      description: '立即看到制作结果',
+      title: 'Preview',
+      description: 'See the result update as you iterate',
       icon: Sparkles,
     },
   ];
@@ -36,17 +36,17 @@ function Home() {
       <div className='flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-8 flex flex-col items-center justify-center'>
         <div className='text-center mb-8'>
           <h1 className='text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-3'>
-            智能应用开发助手
+            Smart app builder
           </h1>
           <p className='text-base sm:text-lg text-black mb-6'>
-            让智能助手帮您快速创建网页应用，只需简单描述，即刻生成专业页面
+            Describe your idea once and ship polished web UI faster—with help from your coding assistant.
           </p>
         </div>
 
-        {/* 使用步骤 - 单行展示 */}
+        {/* Steps — single row on large screens */}
         <div className='mb-8'>
           <h2 className='text-lg sm:text-xl font-bold text-black mb-4 text-center'>
-            简单三步开始
+            Get started in three steps
           </h2>
           <div className='flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-8'>
             {steps.map((step, index) => {
@@ -69,14 +69,14 @@ function Home() {
         </div>
       </div>
 
-      {/* 页脚 */}
+      {/* Footer */}
       <div className='py-3 sm:py-4 px-4 border-t border-gray-200 bg-white/50 backdrop-blur-sm'>
         <div className='flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4'>
           <p className='text-xs sm:text-sm text-gray-600'>
-            专为现代 Web 开发设计
+            Built for modern web development
           </p>
           <p className='text-xs sm:text-sm text-gray-600'>
-            这是个模板页面，请直接替换成符合用户需求的页面
+            This is a template page—replace it with your real experience.
           </p>
         </div>
       </div>

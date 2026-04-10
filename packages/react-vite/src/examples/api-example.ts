@@ -1,22 +1,22 @@
 /**
- * API 调用示例
- * Code Agent 可参考此文件生成类似的 API 调用代码
+ * API usage reference — patterns for typed calls and `extractApiData`.
+ * Agents can mirror this structure when generating API layers.
  */
 
 import { api, extractApiData } from '@/lib/api';
 
 // ============================================
-// 1. 定义通用类型（根据后端实际响应格式调整）
+// 1. Shared types (align with your backend contract)
 // ============================================
 
-/** 通用 API 响应结构 */
+/** Typical wrapped API response */
 interface ApiResponse<T = any> {
     code: number;
     data: T;
     message: string;
 }
 
-/** 分页结果 */
+/** Paginated list payload */
 interface PaginatedResult<T> {
     list: T[];
     total: number;
@@ -24,18 +24,18 @@ interface PaginatedResult<T> {
     pageSize: number;
 }
 
-/** 分页查询参数 */
+/** List query parameters */
 interface ListParams {
     page: number;
     pageSize: number;
     keyword?: string;
 }
 
-/** 通用 ID 类型 */
+/** Identifier accepted by the API */
 type ID = string | number;
 
 // ============================================
-// 2. 定义业务实体类型
+// 2. Domain entities
 // ============================================
 
 interface User {
@@ -61,52 +61,42 @@ interface UpdateUserParams {
 }
 
 // ============================================
-// 2. 定义 API 调用函数
+// 3. API functions
 // ============================================
 
 export const userApi = {
-    /**
-     * 获取用户列表（分页）
-     */
+    /** Paginated user list */
     getList: async (params: ListParams): Promise<PaginatedResult<User>> => {
         const response = await api.get<ApiResponse<PaginatedResult<User>>>('/api/users', { params });
         return extractApiData(response);
     },
 
-    /**
-     * 获取单个用户详情
-     */
+    /** Single user by id */
     getById: async (id: ID): Promise<User> => {
         const response = await api.get<ApiResponse<User>>(`/api/users/${id}`);
         return extractApiData(response);
     },
 
-    /**
-     * 创建用户
-     */
+    /** Create user */
     create: async (data: CreateUserParams): Promise<User> => {
         const response = await api.post<ApiResponse<User>>('/api/users', data);
         return extractApiData(response);
     },
 
-    /**
-     * 更新用户
-     */
+    /** Update user */
     update: async (id: ID, data: UpdateUserParams): Promise<User> => {
         const response = await api.put<ApiResponse<User>>(`/api/users/${id}`, data);
         return extractApiData(response);
     },
 
-    /**
-     * 删除用户
-     */
+    /** Delete user */
     delete: async (id: ID): Promise<void> => {
         await api.delete(`/api/users/${id}`);
     },
 };
 
 // ============================================
-// 3. 在组件中使用示例
+// 4. Usage inside a component (commented)
 // ============================================
 
 /*
@@ -119,8 +109,8 @@ function UserListPage() {
     []
   );
 
-  if (loading) return <div>加载中...</div>;
-  if (error) return <div>错误: {error.message}</div>;
+  if (loading) return <div>Loading…</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <ul>

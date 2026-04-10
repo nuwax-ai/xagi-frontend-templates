@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-// Tailwind 默认颜色列表
+// Tailwind default palette names
 const defaultColors = [
   'slate',
   'gray',
@@ -26,13 +26,13 @@ const defaultColors = [
   'rose',
 ];
 
-// 自定义颜色列表
+// Custom palette extension
 const customColors = ['primary'];
 
-// 颜色深度
+// Shade steps
 const colorShades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
-// 颜色相关的工具类前缀
+// Utility prefixes that take color tokens
 const colorPrefixes = [
   'text',
   'bg',
@@ -50,24 +50,24 @@ const colorPrefixes = [
   'outline',
 ];
 
-// 生成所有颜色相关的 safelist 模式
+// Build safelist entries for color utilities
 function generateColorSafelist() {
   const safelist = [];
   const allColors = [...defaultColors, ...customColors];
 
-  // 为每个颜色前缀和颜色组合生成模式
+  // For each color-related prefix × palette name
   colorPrefixes.forEach((prefix) => {
     allColors.forEach((color) => {
-      // 添加带深度的颜色类（如 text-blue-500）
+      // Shade-specific classes (e.g. text-blue-500)
       colorShades.forEach((shade) => {
         safelist.push(`${prefix}-${color}-${shade}`);
       });
-      // 添加不带深度的颜色类（如 text-blue）
+      // Base color token without shade
       safelist.push(`${prefix}-${color}`);
     });
   });
 
-  // 添加特殊颜色类（如 text-white, text-black, bg-transparent 等）
+  // Special keywords: white, black, transparent, current
   const specialColors = ['white', 'black', 'transparent', 'current'];
   colorPrefixes.forEach((prefix) => {
     specialColors.forEach((color) => {
@@ -78,36 +78,36 @@ function generateColorSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 spacing 值
+// Default Tailwind spacing scale
 const spacingValues = [
   0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 20,
   24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 96,
-  // 自定义 spacing 值
+  // Extra spacing keys used in this project
   18, 88,
-  // 特殊值
+  // Keyword spacing tokens
   'px', 'auto', 'full', 'screen',
 ];
 
-// Padding 和 Margin 相关的工具类前缀
+// Padding / margin utility prefixes
 const spacingPrefixes = {
   padding: ['p', 'px', 'py', 'pt', 'pr', 'pb', 'pl'],
   margin: ['m', 'mx', 'my', 'mt', 'mr', 'mb', 'ml'],
 };
 
-// 生成所有 padding 和 margin 相关的 safelist 模式
+// Safelist spacing utilities
 function generateSpacingSafelist() {
   const safelist = [];
   const allPrefixes = [...spacingPrefixes.padding, ...spacingPrefixes.margin];
 
-  // 为每个前缀和 spacing 值组合生成模式
+  // For each prefix × spacing value
   allPrefixes.forEach((prefix) => {
     spacingValues.forEach((value) => {
-      // 处理数字值（如 p-3, m-4, p-0.5, p-1.5）
+      // Numeric spacing (p-3, m-4, fractional keys, …)
       if (typeof value === 'number') {
-        // 直接使用数字值，Tailwind 会自动处理小数格式（如 p-0.5, p-1.5）
+        // Numeric keys; Tailwind normalizes fractional classes
         safelist.push(`${prefix}-${value}`);
       } else {
-        // 处理特殊值（如 px, auto, full, screen）
+        // Keyword spacing (px, auto, full, screen)
         safelist.push(`${prefix}-${value}`);
       }
     });
@@ -116,10 +116,10 @@ function generateSpacingSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 border width 值
+// Default border-width scale
 const borderWidthValues = [0, 1, 2, 4, 8];
 
-// Border width 相关的工具类前缀
+// Border-width utility prefixes
 const borderWidthPrefixes = [
   'border',
   'border-t',
@@ -130,25 +130,25 @@ const borderWidthPrefixes = [
   'border-y',
 ];
 
-// 生成所有 border width 相关的 safelist 模式
+// Safelist border-width utilities
 function generateBorderWidthSafelist() {
   const safelist = [];
 
-  // 为每个前缀和 border width 值组合生成模式
+  // For each prefix × width value
   borderWidthPrefixes.forEach((prefix) => {
     borderWidthValues.forEach((value) => {
-      // 生成 border width 类名（如 border-0, border-2, border-4, border-8）
+      // e.g. border-0, border-2, border-4, border-8
       safelist.push(`${prefix}-${value}`);
     });
   });
 
-  // 添加单独的 border 类（相当于 border-1）
+  // Plain `border` (default 1px)
   safelist.push('border');
 
   return safelist;
 }
 
-// Tailwind 默认 border style 值
+// Default border-style keywords
 const borderStyleValues = [
   'solid',
   'dashed',
@@ -158,11 +158,11 @@ const borderStyleValues = [
   'none',
 ];
 
-// 生成所有 border style 相关的 safelist 模式
+// Safelist border-style utilities
 function generateBorderStyleSafelist() {
   const safelist = [];
 
-  // 生成 border style 类名（如 border-solid, border-dashed, border-dotted 等）
+  // border-solid, border-dashed, …
   borderStyleValues.forEach((style) => {
     safelist.push(`border-${style}`);
   });
@@ -170,7 +170,7 @@ function generateBorderStyleSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 fontWeight 值
+// Default font-weight tokens
 const fontWeightValues = [
   'thin',        // 100
   'extralight',  // 200
@@ -183,11 +183,11 @@ const fontWeightValues = [
   'black',      // 900
 ];
 
-// 生成所有 fontWeight 相关的 safelist 模式
+// Safelist font-weight utilities
 function generateFontWeightSafelist() {
   const safelist = [];
 
-  // 生成 fontWeight 类名（如 font-thin, font-light, font-bold 等）
+  // font-thin, font-light, font-bold, …
   fontWeightValues.forEach((weight) => {
     safelist.push(`font-${weight}`);
   });
@@ -195,8 +195,8 @@ function generateFontWeightSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 fontSize 键名
-// 对应官方：xs, sm, base, lg, xl, 2xl, 3xl, 4xl, 5xl, 6xl, 7xl, 8xl, 9xl
+// Default text-size keys
+// Matches Tailwind docs: xs … 9xl
 const fontSizeValues = [
   'xs',
   'sm',
@@ -213,11 +213,11 @@ const fontSizeValues = [
   '9xl',
 ];
 
-// 生成所有 fontSize 相关的 safelist 模式
+// Safelist text-* size utilities
 function generateFontSizeSafelist() {
   const safelist = [];
 
-  // 生成 fontSize 类名（如 text-sm, text-base, text-lg, text-2xl 等）
+  // text-sm, text-base, text-lg, …
   fontSizeValues.forEach((size) => {
     safelist.push(`text-${size}`);
   });
@@ -225,8 +225,8 @@ function generateFontSizeSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 lineHeight 键名
-// 对应官方：none, tight, snug, normal, relaxed, loose, 3, 4, 5, 6, 7, 8, 9, 10
+// Default line-height keys
+// Matches Tailwind: none … loose, numeric 3–10
 const lineHeightValues = [
   'none',
   'tight',
@@ -244,11 +244,11 @@ const lineHeightValues = [
   '10',
 ];
 
-// 生成所有 lineHeight 相关的 safelist 模式
+// Safelist leading-* utilities
 function generateLineHeightSafelist() {
   const safelist = [];
 
-  // 生成 lineHeight 类名（如 leading-none, leading-tight, leading-5 等）
+  // leading-none, leading-tight, leading-5, …
   lineHeightValues.forEach((value) => {
     safelist.push(`leading-${value}`);
   });
@@ -256,8 +256,8 @@ function generateLineHeightSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 letter spacing 值
-// 对应官方：tighter, tight, normal, wide, wider, widest
+// Default letter-spacing tokens
+// Matches Tailwind tracking scale
 const letterSpacingValues = [
   'tighter',
   'tight',
@@ -267,11 +267,11 @@ const letterSpacingValues = [
   'widest',
 ];
 
-// 生成所有 letter spacing 相关的 safelist 模式
+// Safelist tracking-* utilities
 function generateLetterSpacingSafelist() {
   const safelist = [];
 
-  // 生成 letter spacing 类名（如 tracking-tighter, tracking-tight, tracking-wide 等）
+  // tracking-tighter, tracking-wide, …
   letterSpacingValues.forEach((value) => {
     safelist.push(`tracking-${value}`);
   });
@@ -279,8 +279,8 @@ function generateLetterSpacingSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 text align 值
-// 对应官方：left, center, right, justify, start, end
+// Default text-align keywords
+// Matches Tailwind text-* alignment
 const textAlignValues = [
   'left',
   'center',
@@ -290,11 +290,11 @@ const textAlignValues = [
   'end',
 ];
 
-// 生成所有 text align 相关的 safelist 模式
+// Safelist text-align utilities (text-left, …)
 function generateTextAlignSafelist() {
   const safelist = [];
 
-  // 生成 text align 类名（如 text-left, text-center, text-right 等）
+  // Note: shares `text-` prefix with font sizes in safelist
   textAlignValues.forEach((value) => {
     safelist.push(`text-${value}`);
   });
@@ -302,17 +302,17 @@ function generateTextAlignSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 opacity 值
-// 对应官方：0, 5, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 95, 100
+// Default opacity percentage steps
+// Matches Tailwind opacity scale
 const opacityValues = [
   0, 5, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 95, 100,
 ];
 
-// 生成所有 opacity 相关的 safelist 模式
+// Safelist opacity-* utilities
 function generateOpacitySafelist() {
   const safelist = [];
 
-  // 生成 opacity 类名（如 opacity-0, opacity-50, opacity-100 等）
+  // opacity-0, opacity-50, opacity-100, …
   opacityValues.forEach((value) => {
     safelist.push(`opacity-${value}`);
   });
@@ -320,8 +320,8 @@ function generateOpacitySafelist() {
   return safelist;
 }
 
-// Tailwind 默认 border radius 值
-// 对应官方：none, sm, md, lg, xl, 2xl, 3xl, full
+// Default border-radius keys
+// Matches Tailwind rounded-* scale
 const borderRadiusValues = [
   'none',
   'sm',
@@ -333,7 +333,7 @@ const borderRadiusValues = [
   'full',
 ];
 
-// Border radius 相关的工具类前缀
+// rounded-* utility prefixes
 const borderRadiusPrefixes = [
   'rounded',
   'rounded-t',
@@ -346,14 +346,14 @@ const borderRadiusPrefixes = [
   'rounded-br',
 ];
 
-// 生成所有 border radius 相关的 safelist 模式
+// Safelist rounded utilities
 function generateBorderRadiusSafelist() {
   const safelist = [];
 
-  // 为每个前缀和 border radius 值组合生成模式
+  // For each rounded prefix × radius token
   borderRadiusPrefixes.forEach((prefix) => {
     borderRadiusValues.forEach((value) => {
-      // 生成 border radius 类名（如 rounded-md, rounded-lg, rounded-tl-sm 等）
+      // rounded-md, rounded-lg, rounded-tl-sm, …
       safelist.push(`${prefix}-${value}`);
     });
   });
@@ -361,8 +361,8 @@ function generateBorderRadiusSafelist() {
   return safelist;
 }
 
-// Tailwind 默认 shadow 值
-// 对应官方：sm, md, lg, xl, 2xl, inner, none
+// Default box-shadow tokens
+// Matches Tailwind shadow-* scale
 const shadowValues = [
   'sm',
   'md',
@@ -373,11 +373,11 @@ const shadowValues = [
   'none',
 ];
 
-// 生成所有 shadow 相关的 safelist 模式
+// Safelist shadow-* utilities
 function generateShadowSafelist() {
   const safelist = [];
 
-  // 生成 shadow 类名（如 shadow-sm, shadow-md, shadow-lg 等）
+  // shadow-sm, shadow-md, shadow-lg, …
   shadowValues.forEach((value) => {
     safelist.push(`shadow-${value}`);
   });
@@ -387,7 +387,7 @@ function generateShadowSafelist() {
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  // 将所有颜色、padding、margin、border width、border style、fontWeight、fontSize、lineHeight、letter spacing、text align、opacity、border radius 和 shadow 相关的类添加到 safelist，避免被 tree-shaking 移除
+  // Merge every generated utility into safelist so dynamic class names are not purged
   safelist: [
     ...generateColorSafelist(),
     ...generateSpacingSafelist(),

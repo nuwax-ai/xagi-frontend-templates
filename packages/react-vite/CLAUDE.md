@@ -1,65 +1,66 @@
-# React Vite Template - Claude 开发指南
+# React Vite Template — Claude guide
 
-## 项目概述
-这是一个现代化的 React 18 + Vite + TypeScript 项目模板，针对 Claude AI 助手进行了优化配置。
+## Overview
 
-## 核心特性
-- ⚡️ 快速开发体验 (Vite 热重载)
-- 🔒 类型安全 (TypeScript)
-- 🎨 现代样式 (Tailwind CSS)
-- 🧩 完整 UI 组件库 (Radix UI - 27个组件)
-- 📝 表单管理 (React Hook Form + Zod)
-- 🌐 HTTP 客户端 (Axios)
-- 📦 完整的项目结构
+Modern React 18 + Vite + TypeScript template tuned for Claude and similar assistants.
 
-## 开发环境设置
+## Highlights
 
-### ⚠️ 重要：强制使用 pnpm
+- Fast dev loop (Vite HMR)
+- TypeScript throughout
+- Tailwind CSS
+- Radix UI primitives (27)
+- React Hook Form + Zod
+- Axios HTTP client
+- Opinionated folder layout
 
-**本项目强制要求使用 pnpm 作为包管理器，禁止使用 npm 或 yarn！**
+## Setup
+
+### pnpm is required
+
+**Use pnpm only — not npm or yarn for dependencies.**
 
 ```bash
-# 1. 安装 pnpm (如果还没有安装)
+# 1. Install pnpm if needed
 npm install -g pnpm
 
-# 2. 安装依赖 (必须使用 pnpm)
+# 2. Install deps
 pnpm install
 
-# 3. 启动开发服务器
+# 3. Dev server
 pnpm dev
 
-# 4. 构建项目
+# 4. Build
 pnpm build
 ```
 
-### 为什么强制使用 pnpm？
-- **🚀 更快的安装速度** - 比 npm 快 2-3 倍
-- **💾 节省磁盘空间** - 使用硬链接共享依赖
-- **🔒 更严格的依赖管理** - 避免幽灵依赖问题
-- **📦 更好的 monorepo 支持** - 原生支持 workspace
+### Why pnpm?
 
-## Claude 优化配置
-- VS Code 设置已优化 GitHub Copilot 集成
-- Cursor 配置已包含在 `.cursorrules`
-- ESLint 和 Prettier 预配置
-- TypeScript 严格模式启用
+Faster installs, less disk use, stricter dependency graph, solid workspace story.
 
-## ⚠️ 代码生成规则（重要）
+## Tooling notes
 
-生成代码时**必须**遵循以下规则：
+- VS Code / Copilot-friendly defaults where present  
+- Cursor rules may live in `.cursorrules`  
+- ESLint + Prettier pre-wired  
+- TypeScript strict mode  
 
-### 1. 文件位置规范
-| 类型 | 位置 | 说明 |
-|------|------|------|
-| 新页面 | `src/pages/XxxPage.tsx` | 需同步更新 `router/index.tsx` |
-| 新组件 | `src/components/XxxComponent.tsx` | 可复用的 UI 组件 |
-| API 函数 | `src/lib/api.ts` | 或创建专用的 `xxxApi.ts` |
-| 类型定义 | 文件内联定义 | 根据后端响应格式定义 |
+## Code generation rules
 
-### 2. 类型使用规范
+### 1. Where files go
+
+| Kind        | Path                          | Notes                         |
+| ----------- | ----------------------------- | ----------------------------- |
+| New page    | `src/pages/XxxPage.tsx`       | Update `router/index.tsx`     |
+| Component   | `src/components/Xxx.tsx`      | Reusable UI                   |
+| API         | `src/lib/api.ts` or `*Api.ts` | Keep calls typed              |
+| Types       | Next to usage                 | Mirror backend contracts      |
+
+### 2. Types
+
 ```typescript
-// 在文件内定义类型（参考 examples/api-example.ts）
-interface ApiResponse<T = any> {
+// Define alongside features (see examples/api-example.ts)
+interface ApiResponse<T = unknown> {
   code: number;
   data: T;
   message: string;
@@ -72,63 +73,54 @@ interface User {
 }
 ```
 
-### 3. API 调用规范
+### 3. API usage
+
 ```typescript
-// 定义 API
 const userApi = {
   getList: async (params: ListParams) => {
     const res = await api.get<ApiResponse<PaginatedResult<User>>>('/api/users', { params });
     return extractApiData(res);
-  }
+  },
 };
 
-// 在组件中使用
 const { data, loading, error, refetch } = useApi(() => userApi.getList(params), [params]);
 ```
 
-### 4. 表单开发规范
+### 4. Forms
+
 ```typescript
-// 1. 定义 Zod schema
 const schema = z.object({
-  name: z.string().min(2, '姓名至少2个字符'),
-  email: z.string().email('邮箱格式不正确'),
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Invalid email format'),
 });
 
-// 2. 使用 React Hook Form
 const form = useForm({ resolver: zodResolver(schema) });
 
-// 3. 使用 Form 组件
 <Form {...form}>
   <FormField name="name" render={...} />
 </Form>
 ```
 
-### 5. 样式规范
-- ✅ **使用** Tailwind CSS 类名
-- ✅ **使用** `cn()` 函数合并类名
-- ❌ **禁止** 内联 style 样式
-- ❌ **禁止** 在组件中写 CSS 文件
+### 5. Styling
 
-### 6. 示例代码参考
+- Use Tailwind classes  
+- Use `cn()` to merge classes  
+- Avoid inline `style` for layout  
+- Avoid ad-hoc CSS files per component unless necessary  
 
-`src/examples/` 目录包含开发参考示例，**禁止直接用于生产环境**。
+### 6. Examples
 
-#### 何时参考哪个示例
+`src/examples/` is reference-only — **not** production copy-paste.
 
-| 开发场景 | 参考示例 | 关键内容 |
-|----------|----------|----------|
-| 需要调用后端 API | `api-example.ts` | 类型定义、API 函数封装、extractApiData 使用 |
-| 创建表单页面 | `form-example.tsx` | Zod 验证、useForm、FormField 组件用法 |
-| 创建数据列表页 | `list-page-example.tsx` | useApi 分页、搜索、CRUD 操作、加载/空状态 |
+| Goal        | File                    | Focus                                      |
+| ----------- | ----------------------- | ------------------------------------------ |
+| HTTP        | `api-example.ts`        | Types, wrappers, `extractApiData`          |
+| Forms       | `form-example.tsx`      | Zod, RHF, `FormField`                      |
+| Lists       | `list-page-example.tsx` | `useApi`, pagination, CRUD, empty states   |
 
-#### 使用方式
-1. **阅读示例**了解代码模式和最佳实践
-2. **参考结构**创建自己的业务代码
-3. **不要直接复制**示例到生产环境
+## Component skeleton
 
-## 组件开发模式
 ```typescript
-// 创建新组件时的标准模式
 interface ComponentProps {
   title: string;
   items: Item[];
@@ -139,143 +131,122 @@ export const Component: React.FC<ComponentProps> = ({ title, items, onAction }) 
   return (
     <div className="component">
       <h2>{title}</h2>
-      {/* 组件内容 */}
+      {/* ... */}
     </div>
   );
 };
 ```
 
-## API 集成模式
+## API integration sketch
+
 ```typescript
-// 在 services.ts 中定义新 API
 export const exampleApi = {
-  getData: (params: ListParams) => 
-    api.get<ListResult<Data>>('/api/data', { params }),
-  
-  createItem: (data: CreateData) => 
-    api.post<Data>('/api/data', data),
+  getData: (params: ListParams) => api.get<ListResult<Data>>('/api/data', { params }),
+  createItem: (data: CreateData) => api.post<Data>('/api/data', data),
 };
 
-// 1. 常规数据获取 (useApi 使用 useCallback 优化)
 const { data, loading, error, refetch } = useApi(() => exampleApi.getData(params));
 
-// 2. 从响应中提取数据 (适配 { code, data, message } 格式)
 import { extractApiData } from '@/lib/api';
 const result = extractApiData<MyData>(response);
 
-// 3. 流式数据请求 (SSE)
 await streamRequest('/api/stream', { prompt: '...' }, (res) => {
-  console.log(res); // 泛型类型安全
+  console.log(res);
 });
 ```
 
-## Claude 提示词模板
+## Prompt templates
 
-### 功能开发
-```
-请为这个 React Vite 项目开发一个 [功能名称] 功能：
-- 使用 TypeScript 和 Tailwind CSS
-- 遵循现有组件结构
-- 添加到 src/components/ 目录
-- 在 App.tsx 中展示使用
-- 包含必要的类型定义
-```
+### Feature work
 
-### 问题排查
 ```
-项目中遇到 [问题描述]：
-- 错误信息：[具体错误]
-- 相关代码：[代码片段]
-- 预期行为：[期望结果]
-
-请分析问题并提供解决方案。
+Implement a [feature name] for this React Vite app:
+- TypeScript + Tailwind
+- Follow existing structure
+- Place shared UI under src/components/
+- Wire into routing if it is a page
+- Include necessary types
 ```
 
-## 项目约定
-- 组件放在 `src/components/` 下
-- API 定义在 `src/lib/services.ts`
-- 工具函数在 `src/lib/utils.ts`
-- 样式优先使用 Tailwind CSS
-- 所有文件必须使用 TypeScript
+### Debugging
 
-## 常用开发模式
+```
+Issue: [description]
+Error: [message]
+Code: [snippet]
+Expected: [behavior]
+
+Suggest a fix and explain briefly.
+```
+
+## Conventions
+
+- Components: `src/components/`  
+- Shared API client: `src/lib/api.ts` (and `services.ts` for hooks/helpers)  
+- Utilities: `src/lib/utils.ts`  
+- Styling: Tailwind first  
+- All new source in TypeScript  
+
+## Common patterns
+
 ```typescript
-// 数据获取
 const { data, loading, error } = useApi(() => api.getData(params));
-
-// 状态管理
-const [state, setState] = useState<DataType>(initialValue);
-
-// 事件处理
-const handleClick = (id: string) => {
-  onAction?.(id);
-};
+const [state, setState] = useState<DataType>(initial);
+const handleClick = (id: string) => onAction?.(id);
 ```
 
-## 性能优化建议
-- 使用 React.memo 优化纯组件
-- 合理使用 useCallback/useMemo
-- 避免不必要的重新渲染
-- 代码分割和懒加载
+## Performance
 
-## 调试技巧
-- 使用 React Developer Tools
-- 在 Chrome DevTools 中查看网络请求
-- 使用 console.log 进行调试
-- 设置断点进行逐步调试
+- `React.memo` for pure leaf components  
+- `useCallback` / `useMemo` when profiling says so  
+- Avoid needless re-renders  
+- Lazy-load heavy routes when appropriate  
 
-## 最佳实践
-1. **类型优先**: 为所有变量、函数参数、返回值添加类型
-2. **组件拆分**: 保持组件单一职责，便于维护
-3. **状态管理**: 选择合适的状态管理方案
-4. **错误处理**: 添加适当的错误边界和错误处理
-5. **性能优化**: 定期检查和优化组件性能
+## Debugging
 
-## Form 表单开发
+- React DevTools  
+- Network tab for API  
+- Logging and breakpoints as usual  
 
-### React Hook Form + Zod 集成
-此模板包含完整的表单解决方案，使用 React Hook Form 进行状态管理，Zod 进行模式验证。
+## Practices
 
-#### Form 组件生成模式
+1. Types at boundaries (API, props)  
+2. Single-purpose components  
+3. Pick the smallest state solution that works  
+4. Error boundaries and user-visible errors  
+5. Revisit performance after features land  
+
+## Forms (RHF + Zod)
+
+### Schema example
+
 ```typescript
-// Claude: 生成 Zod 模式进行表单验证
-import { z } from "zod"
+import { z } from 'zod';
 
-const formSchema = z.object({
-  // 定义表单字段和验证规则
-  email: z.string().email("无效的邮箱地址"),
-  password: z.string().min(8, "密码至少需要8个字符"),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "密码不匹配",
-  path: ["confirmPassword"],
-})
+const formSchema = z
+  .object({
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
-type FormData = z.infer<typeof formSchema>
+type FormData = z.infer<typeof formSchema>;
 ```
 
-#### Form 组件实现
-```typescript
-// Claude: 生成完整的表单组件
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+### Form UI
 
+```typescript
 export function UserForm() {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-  })
+    defaultValues: { email: '', password: '', confirmPassword: '' },
+  });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data)
-  }
+  const onSubmit = (data: FormData) => console.log(data);
 
   return (
     <Form {...form}>
@@ -285,96 +256,62 @@ export function UserForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>邮箱</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="请输入邮箱" {...field} />
+                <Input placeholder="you@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">提交</Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
-  )
+  );
 }
 ```
 
-### 可用的 Radix UI 组件 (27个)
+## Radix primitives (27)
 
-#### 布局和导航
-- **Accordion**: 可折叠的内容部分
-- **Collapsible**: 显示/隐藏内容区域
-- **Navigation Menu**: 复杂的导航结构
-- **Menubar**: 应用程序菜单栏
-- **Tabs**: 标签页内容组织
-- **Separator**: 视觉内容分隔符
+Layout & navigation: Accordion, Collapsible, Navigation Menu, Menubar, Tabs, Separator  
 
-#### 数据显示
-- **Avatar**: 用户头像
-- **Card**: 内容容器
-- **Progress**: 进度指示器
-- **Scroll Area**: 自定义可滚动区域
-- **Aspect Ratio**: 保持宽高比
+Display: Avatar, Card, Progress, Scroll Area, Aspect Ratio  
 
-#### 表单控件
-- **Button**: 交互式按钮，支持多种变体
-- **Checkbox**: 布尔输入控件
-- **Input**: 文本输入字段
-- **Label**: 表单字段标签
-- **Radio Group**: 单选选择
-- **Select**: 下拉选择
-- **Slider**: 范围输入控件
-- **Switch**: 切换控件
-- **Textarea**: 多行文本输入
-- **Toggle**: 切换按钮
-- **Toggle Group**: 分组切换按钮
+Inputs: Button, Checkbox, Input, Label, Radio Group, Select, Slider, Switch, Textarea, Toggle, Toggle Group  
 
-#### 覆盖层和对话框
-- **Alert Dialog**: 确认对话框
-- **Dialog**: 模态对话框
-- **Dropdown Menu**: 上下文菜单
-- **Popover**: 浮动内容面板
-- **Tooltip**: 悬停信息
+Overlays: Alert Dialog, Dialog, Dropdown Menu, Popover, Tooltip  
 
-#### 表单系统
-- **Form**: 完整的表单管理
-- **FormField**: 带验证的字段包装器
-- **FormItem**: 表单元素容器
-- **FormLabel**: 可访问的表单标签
-- **FormControl**: 输入控件包装器
-- **FormDescription**: 帮助文本
-- **FormMessage**: 错误消息
+Form system: Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage  
 
-### 组件使用示例
+## UI snippets
 
-#### 按钮变体
-```typescript
-// Claude: 生成不同变体的按钮
-<Button variant="default">主要按钮</Button>
-<Button variant="outline">轮廓按钮</Button>
-<Button variant="ghost">幽灵按钮</Button>
-<Button variant="destructive">删除按钮</Button>
+### Buttons
+
+```tsx
+<Button variant="default">Primary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="destructive">Destructive</Button>
 ```
 
-#### 表单集成
-```typescript
-// Claude: 生成包含多种输入类型的表单
+### Select inside FormField
+
+```tsx
 <FormField
   control={form.control}
   name="category"
   render={({ field }) => (
     <FormItem>
-      <FormLabel>分类</FormLabel>
+      <FormLabel>Category</FormLabel>
       <Select onValueChange={field.onChange} defaultValue={field.value}>
         <FormControl>
           <SelectTrigger>
-            <SelectValue placeholder="选择一个分类" />
+            <SelectValue placeholder="Pick a category" />
           </SelectTrigger>
         </FormControl>
         <SelectContent>
-          <SelectItem value="option1">选项 1</SelectItem>
-          <SelectItem value="option2">选项 2</SelectItem>
+          <SelectItem value="option1">Option 1</SelectItem>
+          <SelectItem value="option2">Option 2</SelectItem>
         </SelectContent>
       </Select>
       <FormMessage />

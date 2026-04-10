@@ -1,4 +1,4 @@
-# 依赖
+# Dependencies
 node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -6,27 +6,27 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# 构建输出
+# Build output
 dist/
 dist-ssr/
 build/
 *.local
 
-# 环境变量
+# Environment
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# 编辑器
+# Editors
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# 操作系统
+# OS
 .DS_Store
 .DS_Store?
 ._*
@@ -35,11 +35,11 @@ build/
 ehthumbs.db
 Thumbs.db
 
-# 日志
+# Logs
 logs/
 *.log
 
-# 运行时数据
+# Runtime
 pids/
 *.pid
 *.seed
