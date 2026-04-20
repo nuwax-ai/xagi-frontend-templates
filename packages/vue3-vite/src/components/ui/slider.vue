@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { cn } from '@/lib/utils'
+import { computed } from 'vue';
+import { cn } from '@/lib/utils';
 
 interface SliderProps {
-  modelValue?: number
-  min?: number
-  max?: number
-  step?: number
-  class?: string
+  modelValue?: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  class?: string;
 }
 
 const props = withDefaults(defineProps<SliderProps>(), {
@@ -15,10 +15,10 @@ const props = withDefaults(defineProps<SliderProps>(), {
   min: 0,
   max: 100,
   step: 1,
-})
+});
 
-const emit = defineEmits<{ 'update:modelValue': [value: number] }>()
-const className = computed(() => cn('w-full', props.class))
+const emit = defineEmits<{ 'update:modelValue': [value: number] }>();
+const className = computed(() => cn('w-full', props.class));
 </script>
 
 <template>
@@ -29,6 +29,11 @@ const className = computed(() => cn('w-full', props.class))
     :min="min"
     :max="max"
     :step="step"
-    @input="emit('update:modelValue', Number(($event.target as HTMLInputElement).value))"
+    @input="
+      emit(
+        'update:modelValue',
+        Number(($event.target as HTMLInputElement).value)
+      )
+    "
   />
 </template>

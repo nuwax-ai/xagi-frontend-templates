@@ -45,12 +45,12 @@ Follow these when adding code:
 
 ### File placement
 
-| Kind | Location | Notes |
-| --- | --- | --- |
-| Pages | `src/pages/` | Register routes in `router/index.tsx` |
-| Components | `src/components/` | Reusable UI |
+| Kind        | Location                               | Notes                                      |
+| ----------- | -------------------------------------- | ------------------------------------------ |
+| Pages       | `src/pages/`                           | Register routes in `router/index.tsx`      |
+| Components  | `src/components/`                      | Reusable UI                                |
 | API helpers | `src/lib/api.ts` or dedicated services | Use `extractApiData` for wrapped responses |
-| Types | Colocated in feature files | Match backend contracts |
+| Types       | Colocated in feature files             | Match backend contracts                    |
 
 ### Types
 
@@ -69,9 +69,12 @@ const user = extractApiData<User>(response);
 ### API patterns
 
 ```typescript
-const { data, loading, error, refetch } = useApi(() => userApi.getList(params), [params]);
+const { data, loading, error, refetch } = useApi(
+  () => userApi.getList(params),
+  [params]
+);
 
-await streamRequest<ChatMessage>(url, payload, (msg) => {
+await streamRequest<ChatMessage>(url, payload, msg => {
   // handle stream chunk
 });
 ```
@@ -97,10 +100,10 @@ const form = useForm({ resolver: zodResolver(schema) });
 
 `src/examples/` is **not** for production copy-paste.
 
-| Scenario | File | Topics |
-| --- | --- | --- |
-| HTTP + types | `api-example.ts` | Types, API wrappers, `extractApiData` |
-| Forms | `form-example.tsx` | Zod, RHF, form field wiring |
+| Scenario     | File                    | Topics                                    |
+| ------------ | ----------------------- | ----------------------------------------- |
+| HTTP + types | `api-example.ts`        | Types, API wrappers, `extractApiData`     |
+| Forms        | `form-example.tsx`      | Zod, RHF, form field wiring               |
 | Lists / CRUD | `list-page-example.tsx` | `useApi`, pagination, search, empty state |
 
 1. Read for patterns

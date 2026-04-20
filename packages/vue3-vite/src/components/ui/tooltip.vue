@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 import {
   TooltipContent,
   TooltipPortal,
   TooltipProvider,
   TooltipRoot,
   TooltipTrigger,
-} from 'radix-vue'
-import { cn } from '@/lib/utils'
+} from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 interface TooltipProps {
-  text: string
-  class?: string
-  delayDuration?: number
+  text: string;
+  class?: string;
+  delayDuration?: number;
 }
 
-const props = defineProps<TooltipProps>()
+const props = defineProps<TooltipProps>();
 const className = computed(() =>
   cn(
     'z-50 overflow-hidden rounded bg-gray-900 px-2 py-1 text-xs text-white shadow-md',
-    props.class,
-  ),
-)
+    props.class
+  )
+);
 </script>
 
 <template>

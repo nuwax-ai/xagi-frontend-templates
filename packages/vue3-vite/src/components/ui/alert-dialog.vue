@@ -8,15 +8,15 @@ import {
   AlertDialogPortal,
   AlertDialogRoot,
   AlertDialogTitle,
-} from 'radix-vue'
-import { cn } from '@/lib/utils'
+} from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 interface AlertDialogProps {
-  open?: boolean
-  title?: string
-  description?: string
-  confirmText?: string
-  cancelText?: string
+  open?: boolean;
+  title?: string;
+  description?: string;
+  confirmText?: string;
+  cancelText?: string;
 }
 
 withDefaults(defineProps<AlertDialogProps>(), {
@@ -25,13 +25,13 @@ withDefaults(defineProps<AlertDialogProps>(), {
   description: 'This action cannot be undone.',
   confirmText: 'Continue',
   cancelText: 'Cancel',
-})
+});
 
 const emit = defineEmits<{
-  'update:open': [value: boolean]
-  confirm: []
-  cancel: []
-}>()
+  'update:open': [value: boolean];
+  confirm: [];
+  cancel: [];
+}>();
 </script>
 
 <template>
@@ -41,13 +41,17 @@ const emit = defineEmits<{
       <AlertDialogContent
         :class="
           cn(
-            'fixed left-1/2 top-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg bg-white p-6 shadow-lg',
+            'fixed left-1/2 top-1/2 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg bg-white p-6 shadow-lg'
           )
         "
       >
         <div class="grid gap-1.5">
-          <AlertDialogTitle class="text-lg font-semibold text-gray-900">{{ title }}</AlertDialogTitle>
-          <AlertDialogDescription class="text-sm text-gray-500">{{ description }}</AlertDialogDescription>
+          <AlertDialogTitle class="text-lg font-semibold text-gray-900">{{
+            title
+          }}</AlertDialogTitle>
+          <AlertDialogDescription class="text-sm text-gray-500">{{
+            description
+          }}</AlertDialogDescription>
         </div>
         <slot />
         <div class="mt-2 flex justify-end gap-2">

@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { cn } from '@/lib/utils'
+import { computed } from 'vue';
+import { cn } from '@/lib/utils';
 
 interface LabelProps {
-  for?: string
-  class?: string
+  for?: string;
+  class?: string;
 }
 
-const props = defineProps<LabelProps>()
+const props = defineProps<LabelProps>();
 
-const className = computed(() => cn('text-sm font-medium leading-none', props.class))
+const className = computed(() =>
+  cn('text-sm font-medium leading-none', props.class)
+);
 </script>
 
 <template>
-  <label :for="for" :class="className">
+  <label :for="props.for" :class="className">
     <slot />
   </label>
 </template>

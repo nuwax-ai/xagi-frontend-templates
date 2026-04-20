@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import Toggle from './toggle.vue'
+import Toggle from './toggle.vue';
 
 export interface ToggleOption {
-  label: string
-  value: string
+  label: string;
+  value: string;
 }
 
 interface ToggleGroupProps {
-  modelValue?: string[]
-  options: ToggleOption[]
-  multiple?: boolean
+  modelValue?: string[];
+  options: ToggleOption[];
+  multiple?: boolean;
 }
 
 const props = withDefaults(defineProps<ToggleGroupProps>(), {
   modelValue: () => [],
   multiple: true,
-})
+});
 
-const emit = defineEmits<{ 'update:modelValue': [value: string[]] }>()
+const emit = defineEmits<{ 'update:modelValue': [value: string[]] }>();
 
 function onToggle(value: string, active: boolean): void {
   if (props.multiple) {
     const next = active
       ? [...props.modelValue, value]
-      : props.modelValue.filter((item) => item !== value)
-    emit('update:modelValue', next)
-    return
+      : props.modelValue.filter(item => item !== value);
+    emit('update:modelValue', next);
+    return;
   }
 
-  emit('update:modelValue', active ? [value] : [])
+  emit('update:modelValue', active ? [value] : []);
 }
 </script>
 

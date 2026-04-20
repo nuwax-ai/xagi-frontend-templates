@@ -11,24 +11,24 @@ import { api, extractApiData } from '@/lib/api';
 
 /** Typical wrapped API response */
 interface ApiResponse<T = any> {
-    code: number;
-    data: T;
-    message: string;
+  code: number;
+  data: T;
+  message: string;
 }
 
 /** Paginated list payload */
 interface PaginatedResult<T> {
-    list: T[];
-    total: number;
-    page: number;
-    pageSize: number;
+  list: T[];
+  total: number;
+  page: number;
+  pageSize: number;
 }
 
 /** List query parameters */
 interface ListParams {
-    page: number;
-    pageSize: number;
-    keyword?: string;
+  page: number;
+  pageSize: number;
+  keyword?: string;
 }
 
 /** Identifier accepted by the API */
@@ -39,25 +39,25 @@ type ID = string | number;
 // ============================================
 
 interface User {
-    id: ID;
-    name: string;
-    email: string;
-    avatar?: string;
-    role: 'admin' | 'user';
-    createdAt: string;
+  id: ID;
+  name: string;
+  email: string;
+  avatar?: string;
+  role: 'admin' | 'user';
+  createdAt: string;
 }
 
 interface CreateUserParams {
-    name: string;
-    email: string;
-    password: string;
-    role?: 'admin' | 'user';
+  name: string;
+  email: string;
+  password: string;
+  role?: 'admin' | 'user';
 }
 
 interface UpdateUserParams {
-    name?: string;
-    email?: string;
-    avatar?: string;
+  name?: string;
+  email?: string;
+  avatar?: string;
 }
 
 // ============================================
@@ -65,34 +65,37 @@ interface UpdateUserParams {
 // ============================================
 
 export const userApi = {
-    /** Paginated user list */
-    getList: async (params: ListParams): Promise<PaginatedResult<User>> => {
-        const response = await api.get<ApiResponse<PaginatedResult<User>>>('/api/users', { params });
-        return extractApiData(response);
-    },
+  /** Paginated user list */
+  getList: async (params: ListParams): Promise<PaginatedResult<User>> => {
+    const response = await api.get<ApiResponse<PaginatedResult<User>>>(
+      '/api/users',
+      { params }
+    );
+    return extractApiData(response);
+  },
 
-    /** Single user by id */
-    getById: async (id: ID): Promise<User> => {
-        const response = await api.get<ApiResponse<User>>(`/api/users/${id}`);
-        return extractApiData(response);
-    },
+  /** Single user by id */
+  getById: async (id: ID): Promise<User> => {
+    const response = await api.get<ApiResponse<User>>(`/api/users/${id}`);
+    return extractApiData(response);
+  },
 
-    /** Create user */
-    create: async (data: CreateUserParams): Promise<User> => {
-        const response = await api.post<ApiResponse<User>>('/api/users', data);
-        return extractApiData(response);
-    },
+  /** Create user */
+  create: async (data: CreateUserParams): Promise<User> => {
+    const response = await api.post<ApiResponse<User>>('/api/users', data);
+    return extractApiData(response);
+  },
 
-    /** Update user */
-    update: async (id: ID, data: UpdateUserParams): Promise<User> => {
-        const response = await api.put<ApiResponse<User>>(`/api/users/${id}`, data);
-        return extractApiData(response);
-    },
+  /** Update user */
+  update: async (id: ID, data: UpdateUserParams): Promise<User> => {
+    const response = await api.put<ApiResponse<User>>(`/api/users/${id}`, data);
+    return extractApiData(response);
+  },
 
-    /** Delete user */
-    delete: async (id: ID): Promise<void> => {
-        await api.delete(`/api/users/${id}`);
-    },
+  /** Delete user */
+  delete: async (id: ID): Promise<void> => {
+    await api.delete(`/api/users/${id}`);
+  },
 };
 
 // ============================================

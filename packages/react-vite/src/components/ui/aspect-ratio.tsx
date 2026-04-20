@@ -1,7 +1,7 @@
-import * as React from "react"
-import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio"
+import * as React from 'react';
+import * as AspectRatioPrimitive from '@radix-ui/react-aspect-ratio';
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
 const AspectRatio = React.forwardRef<
   React.ElementRef<typeof AspectRatioPrimitive.Root>,
@@ -9,10 +9,10 @@ const AspectRatio = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AspectRatioPrimitive.Root
     ref={ref}
-    className={cn("relative overflow-hidden rounded-md bg-gray-100", className)}
+    className={cn('relative overflow-hidden rounded-md bg-gray-100', className)}
     {...props}
   />
-))
-AspectRatio.displayName = AspectRatioPrimitive.Root.displayName
+));
+AspectRatio.displayName = AspectRatioPrimitive.Root.displayName;
 
-export { AspectRatio }
+export { AspectRatio };

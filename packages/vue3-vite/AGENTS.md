@@ -46,12 +46,12 @@ Follow these when adding code:
 
 ### File placement
 
-| Kind | Location | Notes |
-| --- | --- | --- |
-| Pages | `src/pages/` | Register routes in `router/index.ts` |
-| Components | `src/components/` | Reusable UI |
+| Kind        | Location                               | Notes                                      |
+| ----------- | -------------------------------------- | ------------------------------------------ |
+| Pages       | `src/pages/`                           | Register routes in `router/index.ts`       |
+| Components  | `src/components/`                      | Reusable UI                                |
 | API helpers | `src/lib/api.ts` or dedicated services | Use `extractApiData` for wrapped responses |
-| Types | Colocated in feature files | Match backend contracts |
+| Types       | Colocated in feature files             | Match backend contracts                    |
 
 ### Types
 
@@ -70,9 +70,12 @@ const user = extractApiData<User>(response);
 ### API patterns
 
 ```typescript
-const { data, loading, error, refetch } = useApi(() => userApi.getList(params), [params]);
+const { data, loading, error, refetch } = useApi(
+  () => userApi.getList(params),
+  [params]
+);
 
-await streamRequest<ChatMessage>(url, payload, (msg) => {
+await streamRequest<ChatMessage>(url, payload, msg => {
   // handle stream chunk
 });
 ```
@@ -104,10 +107,10 @@ const { handleSubmit, errors } = useForm({ validationSchema: schema });
 
 `src/examples/` is **not** for production copy-paste.
 
-| Scenario | File | Topics |
-| --- | --- | --- |
-| HTTP + types | `api-example.ts` | Types, API wrappers, `extractApiData` |
-| Forms | `form-example.vue` | Zod, vee-validate, field validation |
+| Scenario     | File                    | Topics                                    |
+| ------------ | ----------------------- | ----------------------------------------- |
+| HTTP + types | `api-example.ts`        | Types, API wrappers, `extractApiData`     |
+| Forms        | `form-example.vue`      | Zod, vee-validate, field validation       |
 | Lists / CRUD | `list-page-example.vue` | `useApi`, pagination, search, empty state |
 
 1. Read for patterns

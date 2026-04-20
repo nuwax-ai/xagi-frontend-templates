@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 interface AspectRatioProps {
-  ratio?: number
+  ratio?: number;
 }
 
 const props = withDefaults(defineProps<AspectRatioProps>(), {
   ratio: 16 / 9,
-})
+});
 
-const paddingBottom = computed(() => `${100 / props.ratio}%`)
+const paddingBottom = computed(() => `${100 / props.ratio}%`);
 </script>
 
 <template>

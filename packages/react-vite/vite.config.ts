@@ -5,12 +5,10 @@ import appdevDesignMode from '@xagi/vite-plugin-design-mode';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(),
-      appdevDesignMode()
-  ],
+  plugins: [react(), appdevDesignMode()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
-  }
+  },
 });

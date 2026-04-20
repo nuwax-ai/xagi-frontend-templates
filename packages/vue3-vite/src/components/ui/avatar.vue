@@ -1,20 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { cn } from '@/lib/utils'
+import { ref } from 'vue';
+import { cn } from '@/lib/utils';
 
 interface AvatarProps {
-  src?: string
-  alt?: string
-  fallback?: string
-  class?: string
+  src?: string;
+  alt?: string;
+  fallback?: string;
+  class?: string;
 }
 
-defineProps<AvatarProps>()
-const imageError = ref(false)
+defineProps<AvatarProps>();
+const imageError = ref(false);
 </script>
 
 <template>
-  <div :class="cn('relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full', $props.class)">
+  <div
+    :class="
+      cn(
+        'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
+        $props.class
+      )
+    "
+  >
     <img
       v-if="src && !imageError"
       :src="src"

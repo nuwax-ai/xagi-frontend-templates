@@ -1,7 +1,7 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '@/pages/Home.vue'
-import NotFound from '@/pages/NotFound.vue'
-import ExamplesPage from '@/pages/ExamplesPage.vue'
+import { createRouter, createWebHashHistory } from 'vue-router';
+import Home from '@/pages/Home.vue';
+import NotFound from '@/pages/NotFound.vue';
+import ExamplesPage from '@/pages/ExamplesPage.vue';
 
 /**
  * Hash-based routing keeps navigation fully relative for static hosting:
@@ -27,6 +27,6 @@ const router = createRouter({
       component: ExamplesPage,
     },
   ],
-})
+});
 
-export default router
+export default router;

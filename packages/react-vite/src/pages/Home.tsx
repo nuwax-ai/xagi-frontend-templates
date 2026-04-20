@@ -1,15 +1,10 @@
-import {
-  MessageCircle,
-  Cpu,
-  Sparkles,
-} from 'lucide-react';
+import { MessageCircle, Cpu, Sparkles } from 'lucide-react';
 
 /**
  * Home page — marketing-style placeholder for the template.
  * Replace with your real landing or app shell.
  */
 function Home() {
-
   const steps = [
     {
       number: '1',
@@ -39,7 +34,8 @@ function Home() {
             Smart app builder
           </h1>
           <p className='text-base sm:text-lg text-black mb-6'>
-            Describe your idea once and ship polished web UI faster—with help from your coding assistant.
+            Describe your idea once and ship polished web UI faster—with help
+            from your coding assistant.
           </p>
         </div>
 

@@ -86,7 +86,6 @@
 
 /* Component-layer utilities */
 @layer components {
-
   /* Page container */
   .container {
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
@@ -148,7 +147,6 @@
 
 /* Extra utilities */
 @layer utilities {
-
   /* Grid helpers */
   .grid-auto-fit {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -208,7 +206,6 @@
 }
 
 @keyframes bounce {
-
   0%,
   20%,
   53%,
@@ -247,7 +244,6 @@
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {

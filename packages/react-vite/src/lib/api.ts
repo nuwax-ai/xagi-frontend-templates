@@ -49,7 +49,10 @@ class ApiClient {
       }
     );
   }
-  async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async get<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.instance.get<T>(url, config);
   }
   async post<T = any>(
@@ -66,7 +69,10 @@ class ApiClient {
   ): Promise<AxiosResponse<T>> {
     return this.instance.put<T>(url, data, config);
   }
-  async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  async delete<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     return this.instance.delete<T>(url, config);
   }
   async patch<T = any>(

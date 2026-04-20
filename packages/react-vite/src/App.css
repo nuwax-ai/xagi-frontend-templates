@@ -3,7 +3,8 @@
   min-height: 100vh;
   background: #fff;
   padding: 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -83,7 +84,6 @@
   font-size: 0.85rem;
   line-height: 1.4;
 }
-
 
 /* Prompt / CTA card */
 .prompt-section {

@@ -163,14 +163,16 @@ export const exampleApi = {
 };
 
 // 1. useApi — loading/error + refetch (useCallback inside)
-const { data, loading, error, refetch } = useApi(() => exampleApi.getData(params));
+const { data, loading, error, refetch } = useApi(() =>
+  exampleApi.getData(params)
+);
 
 // 2. extractApiData — unwrap { code, data, message }
 import { extractApiData } from '@/lib/api';
 const result = extractApiData<MyData>(response);
 
 // 3. streamRequest — SSE-style streams
-await streamRequest('/api/chat', { prompt: 'hello' }, (res) => {
+await streamRequest('/api/chat', { prompt: 'hello' }, res => {
   console.log(res);
 });
 ```
@@ -228,15 +230,15 @@ This template is structured for codegen tools:
 
 Under `src/examples/` — **reference only**, not production-ready drop-ins.
 
-| Goal              | File                     | Highlights                                      |
-| ----------------- | ------------------------ | ----------------------------------------------- |
-| Backend API calls | `api-example.ts`         | Types, wrappers, `extractApiData`               |
-| Forms             | `form-example.tsx`       | Zod, `useForm`, `FormField`                     |
-| List / CRUD UI    | `list-page-example.tsx`  | `useApi`, pagination, search, loading / empty  |
+| Goal              | File                    | Highlights                                    |
+| ----------------- | ----------------------- | --------------------------------------------- |
+| Backend API calls | `api-example.ts`        | Types, wrappers, `extractApiData`             |
+| Forms             | `form-example.tsx`      | Zod, `useForm`, `FormField`                   |
+| List / CRUD UI    | `list-page-example.tsx` | `useApi`, pagination, search, loading / empty |
 
-1. Read for patterns  
-2. Reuse structure in your own code  
-3. Do not copy verbatim into production  
+1. Read for patterns
+2. Reuse structure in your own code
+3. Do not copy verbatim into production
 
 ## License
 

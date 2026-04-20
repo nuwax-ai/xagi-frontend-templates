@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { cn } from '@/lib/utils'
+import { computed } from 'vue';
+import { cn } from '@/lib/utils';
 
 export interface RadioOption {
-  label: string
-  value: string
-  disabled?: boolean
+  label: string;
+  value: string;
+  disabled?: boolean;
 }
 
 interface RadioGroupProps {
-  modelValue?: string
-  options: RadioOption[]
-  name: string
-  class?: string
+  modelValue?: string;
+  options: RadioOption[];
+  name: string;
+  class?: string;
 }
 
-const props = defineProps<RadioGroupProps>()
-const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+const props = defineProps<RadioGroupProps>();
+const emit = defineEmits<{ 'update:modelValue': [value: string] }>();
 
-const className = computed(() => cn('grid gap-2', props.class))
+const className = computed(() => cn('grid gap-2', props.class));
 </script>
 
 <template>
@@ -27,7 +27,9 @@ const className = computed(() => cn('grid gap-2', props.class))
       v-for="option in options"
       :key="option.value"
       class="flex items-center gap-2 text-sm"
-      :class="option.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'"
+      :class="
+        option.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+      "
     >
       <input
         type="radio"

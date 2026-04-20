@@ -64,15 +64,12 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, CardTitleProps>(
 CardTitle.displayName = 'CardTitle';
 
 /** Muted supporting text below the title. */
-const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(
-  ({ className, ...props }, ref) => (
-    <p
-      ref={ref}
-      className={cn('text-sm text-gray-500', className)}
-      {...props}
-    />
-  )
-);
+const CardDescription = React.forwardRef<
+  HTMLParagraphElement,
+  CardDescriptionProps
+>(({ className, ...props }, ref) => (
+  <p ref={ref} className={cn('text-sm text-gray-500', className)} {...props} />
+));
 CardDescription.displayName = 'CardDescription';
 
 /** Primary content area. */
@@ -95,4 +92,11 @@ const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
 );
 CardFooter.displayName = 'CardFooter';
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+};

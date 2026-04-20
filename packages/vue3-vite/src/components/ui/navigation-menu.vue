@@ -1,18 +1,20 @@
 <script setup lang="ts">
 export interface NavigationItem {
-  label: string
-  href: string
+  label: string;
+  href: string;
 }
 
 interface NavigationMenuProps {
-  items: NavigationItem[]
+  items: NavigationItem[];
 }
 
-defineProps<NavigationMenuProps>()
+defineProps<NavigationMenuProps>();
 </script>
 
 <template>
-  <nav class="flex items-center gap-2 rounded-md border border-gray-200 bg-white p-2">
+  <nav
+    class="flex items-center gap-2 rounded-md border border-gray-200 bg-white p-2"
+  >
     <a
       v-for="item in items"
       :key="item.href"

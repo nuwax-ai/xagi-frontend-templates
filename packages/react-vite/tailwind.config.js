@@ -56,10 +56,10 @@ function generateColorSafelist() {
   const allColors = [...defaultColors, ...customColors];
 
   // For each color-related prefix × palette name
-  colorPrefixes.forEach((prefix) => {
-    allColors.forEach((color) => {
+  colorPrefixes.forEach(prefix => {
+    allColors.forEach(color => {
       // Shade-specific classes (e.g. text-blue-500)
-      colorShades.forEach((shade) => {
+      colorShades.forEach(shade => {
         safelist.push(`${prefix}-${color}-${shade}`);
       });
       // Base color token without shade
@@ -69,8 +69,8 @@ function generateColorSafelist() {
 
   // Special keywords: white, black, transparent, current
   const specialColors = ['white', 'black', 'transparent', 'current'];
-  colorPrefixes.forEach((prefix) => {
-    specialColors.forEach((color) => {
+  colorPrefixes.forEach(prefix => {
+    specialColors.forEach(color => {
       safelist.push(`${prefix}-${color}`);
     });
   });
@@ -80,12 +80,48 @@ function generateColorSafelist() {
 
 // Default Tailwind spacing scale
 const spacingValues = [
-  0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 20,
-  24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 72, 80, 96,
+  0,
+  0.5,
+  1,
+  1.5,
+  2,
+  2.5,
+  3,
+  3.5,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  14,
+  16,
+  20,
+  24,
+  28,
+  32,
+  36,
+  40,
+  44,
+  48,
+  52,
+  56,
+  60,
+  64,
+  72,
+  80,
+  96,
   // Extra spacing keys used in this project
-  18, 88,
+  18,
+  88,
   // Keyword spacing tokens
-  'px', 'auto', 'full', 'screen',
+  'px',
+  'auto',
+  'full',
+  'screen',
 ];
 
 // Padding / margin utility prefixes
@@ -100,8 +136,8 @@ function generateSpacingSafelist() {
   const allPrefixes = [...spacingPrefixes.padding, ...spacingPrefixes.margin];
 
   // For each prefix × spacing value
-  allPrefixes.forEach((prefix) => {
-    spacingValues.forEach((value) => {
+  allPrefixes.forEach(prefix => {
+    spacingValues.forEach(value => {
       // Numeric spacing (p-3, m-4, fractional keys, …)
       if (typeof value === 'number') {
         // Numeric keys; Tailwind normalizes fractional classes
@@ -135,8 +171,8 @@ function generateBorderWidthSafelist() {
   const safelist = [];
 
   // For each prefix × width value
-  borderWidthPrefixes.forEach((prefix) => {
-    borderWidthValues.forEach((value) => {
+  borderWidthPrefixes.forEach(prefix => {
+    borderWidthValues.forEach(value => {
       // e.g. border-0, border-2, border-4, border-8
       safelist.push(`${prefix}-${value}`);
     });
@@ -163,7 +199,7 @@ function generateBorderStyleSafelist() {
   const safelist = [];
 
   // border-solid, border-dashed, …
-  borderStyleValues.forEach((style) => {
+  borderStyleValues.forEach(style => {
     safelist.push(`border-${style}`);
   });
 
@@ -172,15 +208,15 @@ function generateBorderStyleSafelist() {
 
 // Default font-weight tokens
 const fontWeightValues = [
-  'thin',        // 100
-  'extralight',  // 200
-  'light',       // 300
-  'normal',      // 400
-  'medium',     // 500
-  'semibold',   // 600
-  'bold',       // 700
-  'extrabold',  // 800
-  'black',      // 900
+  'thin', // 100
+  'extralight', // 200
+  'light', // 300
+  'normal', // 400
+  'medium', // 500
+  'semibold', // 600
+  'bold', // 700
+  'extrabold', // 800
+  'black', // 900
 ];
 
 // Safelist font-weight utilities
@@ -188,7 +224,7 @@ function generateFontWeightSafelist() {
   const safelist = [];
 
   // font-thin, font-light, font-bold, …
-  fontWeightValues.forEach((weight) => {
+  fontWeightValues.forEach(weight => {
     safelist.push(`font-${weight}`);
   });
 
@@ -218,7 +254,7 @@ function generateFontSizeSafelist() {
   const safelist = [];
 
   // text-sm, text-base, text-lg, …
-  fontSizeValues.forEach((size) => {
+  fontSizeValues.forEach(size => {
     safelist.push(`text-${size}`);
   });
 
@@ -249,7 +285,7 @@ function generateLineHeightSafelist() {
   const safelist = [];
 
   // leading-none, leading-tight, leading-5, …
-  lineHeightValues.forEach((value) => {
+  lineHeightValues.forEach(value => {
     safelist.push(`leading-${value}`);
   });
 
@@ -272,7 +308,7 @@ function generateLetterSpacingSafelist() {
   const safelist = [];
 
   // tracking-tighter, tracking-wide, …
-  letterSpacingValues.forEach((value) => {
+  letterSpacingValues.forEach(value => {
     safelist.push(`tracking-${value}`);
   });
 
@@ -281,21 +317,14 @@ function generateLetterSpacingSafelist() {
 
 // Default text-align keywords
 // Matches Tailwind text-* alignment
-const textAlignValues = [
-  'left',
-  'center',
-  'right',
-  'justify',
-  'start',
-  'end',
-];
+const textAlignValues = ['left', 'center', 'right', 'justify', 'start', 'end'];
 
 // Safelist text-align utilities (text-left, …)
 function generateTextAlignSafelist() {
   const safelist = [];
 
   // Note: shares `text-` prefix with font sizes in safelist
-  textAlignValues.forEach((value) => {
+  textAlignValues.forEach(value => {
     safelist.push(`text-${value}`);
   });
 
@@ -313,7 +342,7 @@ function generateOpacitySafelist() {
   const safelist = [];
 
   // opacity-0, opacity-50, opacity-100, …
-  opacityValues.forEach((value) => {
+  opacityValues.forEach(value => {
     safelist.push(`opacity-${value}`);
   });
 
@@ -351,8 +380,8 @@ function generateBorderRadiusSafelist() {
   const safelist = [];
 
   // For each rounded prefix × radius token
-  borderRadiusPrefixes.forEach((prefix) => {
-    borderRadiusValues.forEach((value) => {
+  borderRadiusPrefixes.forEach(prefix => {
+    borderRadiusValues.forEach(value => {
       // rounded-md, rounded-lg, rounded-tl-sm, …
       safelist.push(`${prefix}-${value}`);
     });
@@ -363,22 +392,14 @@ function generateBorderRadiusSafelist() {
 
 // Default box-shadow tokens
 // Matches Tailwind shadow-* scale
-const shadowValues = [
-  'sm',
-  'md',
-  'lg',
-  'xl',
-  '2xl',
-  'inner',
-  'none',
-];
+const shadowValues = ['sm', 'md', 'lg', 'xl', '2xl', 'inner', 'none'];
 
 // Safelist shadow-* utilities
 function generateShadowSafelist() {
   const safelist = [];
 
   // shadow-sm, shadow-md, shadow-lg, …
-  shadowValues.forEach((value) => {
+  shadowValues.forEach(value => {
     safelist.push(`shadow-${value}`);
   });
 

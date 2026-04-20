@@ -1,6 +1,9 @@
 // React Hook helpers for data fetching and streaming
 import { useState, useEffect, useCallback } from 'react';
-import { fetchEventSource, EventSourceMessage } from '@microsoft/fetch-event-source';
+import {
+  fetchEventSource,
+  EventSourceMessage,
+} from '@microsoft/fetch-event-source';
 
 /**
  * Generic async data hook — loading / error / refetch for any `Promise` API.
@@ -16,10 +19,7 @@ import { fetchEventSource, EventSourceMessage } from '@microsoft/fetch-event-sou
  * @example
  * const { data, loading, error } = useApi(() => userApi.getUserInfo());
  */
-export function useApi<T>(
-  apiCall: () => Promise<T>,
-  deps: any[] = []
-) {
+export function useApi<T>(apiCall: () => Promise<T>, deps: any[] = []) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -33,12 +33,12 @@ export function useApi<T>(
       setData(result);
     } catch (err: any) {
       // Normalize non-Error throws (e.g. plain `{ message }`) to Error
-      const errorObj = err instanceof Error ? err : new Error(err?.message || 'Unknown error');
+      const errorObj =
+        err instanceof Error ? err : new Error(err?.message || 'Unknown error');
       setError(errorObj);
     } finally {
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
   useEffect(() => {
@@ -52,8 +52,6 @@ export function useApi<T>(
  * Payload shape for streamed chunks — generic so each endpoint can differ.
  */
 export type StreamResponse<T = any> = T;
-
-
 
 /**
  * POST + SSE-style stream via `@microsoft/fetch-event-source`.
@@ -95,7 +93,7 @@ export async function streamRequest<T>(
         }
         // Rethrow stops the library from retrying forever
         throw err;
-      }
+      },
     });
   } catch (error) {
     if (onError) {
