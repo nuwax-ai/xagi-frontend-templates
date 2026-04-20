@@ -1,80 +1,106 @@
-import { ref, onMounted, Ref } from 'vue';
-import { api } from './api';
+import { fetchEventSource, type EventSourceMessage } from '@microsoft/fetch-event-source'
+import { onMounted, ref, type Ref, watch, type WatchSource } from 'vue'
+import { api, extractApiData, type ApiResponse } from './api'
 
-// 接口返回数据类型定义
 export interface User {
-  id: number;
-  username: string;
-  email: string;
-  avatar?: string;
-  createdAt: string;
+  id: number
+  username: string
+  email: string
+  avatar?: string
+  createdAt: string
 }
 
 export interface ListParams {
-  page: number;
-  pageSize: number;
-  keyword?: string;
+  page: number
+  pageSize: number
+  keyword?: string
 }
 
 export interface ListResult<T> {
-  list: T[];
-  total: number;
-  page: number;
-  pageSize: number;
+  list: T[]
+  total: number
+  page: number
+  pageSize: number
 }
 
-// 用户相关API
 export const userApi = {
-  // 获取用户信息
-  getUserInfo: () => api.get<User>('/user/info'),
-  
-  // 更新用户信息
-  updateUserInfo: (data: Partial<User>) => api.put<User>('/user/info', data),
-};
+  async getUserInfo(): Promise<User> {
+    const response = await api.get<ApiResponse<User>>('/user/info')
+    return extractApiData<User>(response)
+  },
+  async updateUserInfo(data: Partial<User>): Promise<User> {
+    const response = await api.put<ApiResponse<User>>('/user/info', data)
+    return extractApiData<User>(response)
+  },
+}
 
-// 示例数据列表API
 export const exampleApi = {
-  // 获取列表数据
-  getList: (params: ListParams) => api.get<ListResult<any>>('/example/list', { params }),
-  
-  // 创建项目
-  create: (data: any) => api.post<any>('/example/create', data),
-  
-  // 更新项目
-  update: (id: number, data: any) => api.put<any>(`/example/update/${id}`, data),
-  
-  // 删除项目
-  delete: (id: number) => api.delete<any>(`/example/delete/${id}`),
-  
-  // 获取详情
-  getDetail: (id: number) => api.get<any>(`/example/detail/${id}`),
-};
+  async getList(params: ListParams): Promise<ListResult<unknown>> {
+    const response = await api.get<ApiResponse<ListResult<unknown>>>('/example/list', { params })
+    return extractApiData<ListResult<unknown>>(response)
+  },
+  async create(data: unknown): Promise<unknown> {
+    const response = await api.post<ApiResponse<unknown>>('/example/create', data)
+    return extractApiData(response)
+  },
+  async update(id: number, data: unknown): Promise<unknown> {
+    const response = await api.put<ApiResponse<unknown>>(`/example/update/${id}`, data)
+    return extractApiData(response)
+  },
+  async delete(id: number): Promise<void> {
+    await api.delete(`/example/delete/${id}`)
+  },
+  async getDetail(id: number): Promise<unknown> {
+    const response = await api.get<ApiResponse<unknown>>(`/example/detail/${id}`)
+    return extractApiData(response)
+  },
+}
 
-// Vue 3 Composition API 封装
+interface UseApiOptions {
+  immediate?: boolean
+  watchSources?: WatchSource[]
+}
+
+/**
+ * Vue-friendly async state helper aligned with react-vite semantics:
+ * - loading / error state
+ * - explicit execute()
+ * - refetch alias
+ */
 export function useApi<T>(
   apiCall: () => Promise<T>,
-  immediate = false
-) {
-  const data: Ref<T | null> = ref(null);
-  const loading: Ref<boolean> = ref(false);
-  const error: Ref<Error | null> = ref(null);
+  options: UseApiOptions = {},
+): {
+  data: Ref<T | null>
+  loading: Ref<boolean>
+  error: Ref<Error | null>
+  execute: () => Promise<void>
+  refetch: () => Promise<void>
+} {
+  const data = ref<T | null>(null) as Ref<T | null>
+  const loading = ref(false)
+  const error = ref<Error | null>(null)
 
-  const execute = async () => {
-    loading.value = true;
-    error.value = null;
-    
+  const execute = async (): Promise<void> => {
+    loading.value = true
+    error.value = null
     try {
-      const result = await apiCall();
-      data.value = result;
+      data.value = await apiCall()
     } catch (err) {
-      error.value = err as Error;
+      error.value = err instanceof Error ? err : new Error('Unknown error')
     } finally {
-      loading.value = false;
+      loading.value = false
     }
-  };
+  }
 
-  if (immediate) {
-    onMounted(execute);
+  if (options.immediate ?? true) {
+    onMounted(execute)
+  }
+
+  if (options.watchSources && options.watchSources.length > 0) {
+    watch(options.watchSources, () => {
+      void execute()
+    })
   }
 
   return {
@@ -82,8 +108,43 @@ export function useApi<T>(
     loading,
     error,
     execute,
-  };
+    refetch: execute,
+  }
 }
 
-// 使用示例：
-// const { data, loading, error } = useApi(() => userApi.getUserInfo(), true);
+export type StreamResponse<T = unknown> = T
+
+export async function streamRequest<T>(
+  url: string,
+  payload: unknown,
+  onData: (response: StreamResponse<T>) => void,
+  onError?: (error: Error) => void,
+): Promise<void> {
+  try {
+    await fetchEventSource(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      onmessage(msg: EventSourceMessage) {
+        if (msg.event === 'FatalError') {
+          throw new Error(msg.data)
+        }
+        try {
+          onData(JSON.parse(msg.data) as StreamResponse<T>)
+        } catch {
+          console.warn('Failed to parse stream chunk:', msg.data)
+        }
+      },
+      onerror(err) {
+        if (onError) {
+          onError(err as Error)
+        }
+        throw err
+      },
+    })
+  } catch (err) {
+    if (onError) {
+      onError(err as Error)
+    }
+  }
+}
