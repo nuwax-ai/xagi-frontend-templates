@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "description": "XAGI Frontend Templates - 内置前端模板集合",
-  "updatedAt": "2025-09-30T11:37:00Z",
+  "updatedAt": "2026-04-20T00:00:00Z",
   "author": "XAGI Team",
   "license": "MIT",
   "repository": {
@@ -13,7 +13,7 @@
       "id": "react-vite",
       "name": "React + Vite",
       "packageName": "@xagi-templates/react-vite",
-      "version": "1.0.0",
+      "version": "1.1.3",
       "description": "基于 React 18 + Vite + TypeScript 的现代化前端项目模板",
       "category": "react",
       "framework": "react",
@@ -53,8 +53,9 @@
         "dev": "vite --port 3000",
         "build": "tsc && vite build",
         "preview": "vite preview",
-        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-        "type-check": "tsc --noEmit"
+        "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "type-check": "tsc --noEmit",
+        "check": "pnpm run type-check && pnpm run lint"
       },
       "fileStructure": [
         "src/",
@@ -81,12 +82,7 @@
         "单页面应用 (SPA)"
       ],
       "compatibility": {
-        "browsers": [
-          "Chrome >= 87",
-          "Firefox >= 78",
-          "Safari >= 14",
-          "Edge >= 88"
-        ],
+        "browsers": ["Chrome >= 87", "Firefox >= 78", "Safari >= 14", "Edge >= 88"],
         "node": ">=18.0.0"
       }
     },
@@ -94,7 +90,7 @@
       "id": "vue3-vite",
       "name": "Vue 3 + Vite",
       "packageName": "@xagi-templates/vue3-vite",
-      "version": "1.0.0",
+      "version": "1.1.3",
       "description": "基于 Vue 3 + Vite + TypeScript 的现代化前端项目模板",
       "category": "vue",
       "framework": "vue",
@@ -118,16 +114,29 @@
         "axios": "^1.6.2"
       },
       "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "6.21.0",
+        "@typescript-eslint/parser": "6.21.0",
         "@vitejs/plugin-vue": "^4.5.2",
+        "@xagi/vite-plugin-design-mode": "1.1.0-beta.0",
+        "autoprefixer": "^10.4.21",
+        "eslint": "8",
+        "eslint-plugin-vue": "^9.30.0",
+        "postcss": "^8.5.6",
+        "prettier": "^3.0.0",
+        "prettier-plugin-tailwindcss": "^0.6.14",
+        "tailwindcss": "^3.4.18",
         "typescript": "^5.2.2",
         "vite": "^5.0.8",
-        "vue-tsc": "^1.8.25"
+        "vue-eslint-parser": "^9.4.3",
+        "vue-tsc": "^3.2.7"
       },
       "scripts": {
         "dev": "vite --port 4000",
         "build": "vite build",
         "preview": "vite preview",
-        "type-check": "vue-tsc --noEmit"
+        "lint": "eslint src --ext .ts,.vue --report-unused-disable-directives --max-warnings 0",
+        "type-check": "vue-tsc --noEmit",
+        "check": "pnpm run type-check && pnpm run lint"
       },
       "fileStructure": [
         "src/",
@@ -154,12 +163,7 @@
         "单页面应用 (SPA)"
       ],
       "compatibility": {
-        "browsers": [
-          "Chrome >= 87",
-          "Firefox >= 78",
-          "Safari >= 14",
-          "Edge >= 88"
-        ],
+        "browsers": ["Chrome >= 87", "Firefox >= 78", "Safari >= 14", "Edge >= 88"],
         "node": ">=18.0.0"
       }
     },
@@ -262,12 +266,7 @@
         "企业级应用"
       ],
       "compatibility": {
-        "browsers": [
-          "Chrome >= 87",
-          "Firefox >= 78",
-          "Safari >= 14",
-          "Edge >= 88"
-        ],
+        "browsers": ["Chrome >= 87", "Firefox >= 78", "Safari >= 14", "Edge >= 88"],
         "node": ">=18.0.0"
       }
     }

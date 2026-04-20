@@ -1,5 +1,6 @@
 import { createHashRouter } from 'react-router-dom';
 import Home from '@/pages/Home';
+import ExamplesPage from '@/pages/ExamplesPage';
 import NotFound from '@/pages/NotFound';
 
 /**
@@ -21,6 +22,10 @@ export const router = createHashRouter([
   {
     path: '/',
     element: <Home />,
+  },
+  {
+    path: '/examples',
+    element: <ExamplesPage />,
   },
   {
     path: '*',

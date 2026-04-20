@@ -2,252 +2,105 @@
 
 A modern React 18 + Vite + TypeScript project template, optimized for AI-assisted development.
 
-## Quick start
+## Quick Start
 
 ### Prerequisites
 
 - **Node.js** >= 18.0.0
 - **pnpm** >= 8.0.0 (required)
 
-### Install pnpm
-
-If pnpm is not installed yet:
+### Setup
 
 ```bash
-# Install pnpm with npm
-npm install -g pnpm
-
-# Or use the official installer
-# curl -fsSL https://get.pnpm.io/install.sh | sh -
-```
-
-### Project setup
-
-```bash
-# 1. Install dependencies (pnpm only)
 pnpm install
-
-# 2. Start the dev server
 pnpm dev
-
-# 3. Production build
-pnpm build
-
-# 4. Preview production build
-pnpm preview
 ```
 
-## Package manager
+## Command Contract
 
-**This project requires pnpm.**
-
-- Do **not** use `npm` or `yarn` for dependency management.
-- Use **pnpm** for all install / add / remove operations.
-- Tooling is tuned for pnpm.
-
-### Why pnpm?
-
-- **Faster installs** — often 2–3× faster than npm
-- **Less disk usage** — content-addressable store and hard links
-- **Stricter dependency graph** — fewer phantom dependency issues
-- **Strong monorepo support** — workspaces out of the box
-
-## Scripts
+Use this command set consistently (same contract as `vue3-vite`).
 
 ```bash
 # Development
-pnpm dev              # Dev server
-pnpm build            # Production build
-pnpm preview          # Preview production build
+pnpm dev         # Dev server
+pnpm build       # Production build
+pnpm preview     # Preview production build
 
-# Quality
-pnpm lint             # ESLint
-pnpm lint:fix         # ESLint with auto-fix
-pnpm type-check       # TypeScript check
-pnpm format           # Prettier write
-pnpm format:check     # Prettier check
+# Quality gate
+pnpm type-check  # TypeScript check
+pnpm lint        # ESLint
+pnpm check       # Required gate: type-check + lint
 
-# Utilities
-pnpm clean            # Remove dist
+# Formatting (optional)
+pnpm format
+pnpm format:check
 ```
 
-## Stack
+Workspace-level checks (run from monorepo root):
 
-- **Framework**: React 18
-- **Bundler**: Vite
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI**: Radix UI (27 primitives)
-- **Forms**: React Hook Form + Zod
-- **HTTP**: Axios
-- **Package manager**: pnpm
-
-## Project layout
-
+```bash
+pnpm check:templates  # Runs pnpm check for vue3-vite + react-vite
+pnpm check:versions   # Verifies package.json/meta.json/templates.json version alignment
 ```
+
+## Project Layout (Isomorphic with Vue template)
+
+```text
 src/
 ├── components/        # Shared components
-│   └── ui/           # Radix-based UI primitives (28)
-├── examples/         # Reference only — not for production copy-paste
+│   └── ui/           # Radix-based UI primitives
+├── examples/         # Reference only, never copy directly to production
 │   ├── api-example.ts
 │   ├── form-example.tsx
 │   └── list-page-example.tsx
-├── lib/              # Utilities and API client
-│   ├── api.ts        # HTTP client + extractApiData
-│   ├── services.ts   # useApi + streamRequest
-│   └── utils.ts      # cn, debounce, throttle, etc.
+├── lib/              # API and utilities
+│   ├── api.ts
+│   ├── services.ts
+│   └── utils.ts
 ├── pages/            # Route-level pages
 │   ├── Home.tsx
+│   ├── ExamplesPage.tsx
 │   └── NotFound.tsx
 ├── router/
-│   └── index.tsx     # Hash router
-├── App.tsx           # Root (RouterProvider)
-├── main.tsx          # Entry
-└── index.css         # Global styles + Tailwind
+│   └── index.tsx     # Hash router (includes /examples)
+├── App.tsx
+├── main.tsx
+└── index.css
 ```
 
-## UI primitives
+## Examples Policy
 
-Radix-based set (27 components):
+- `src/examples/*` is pattern reference only.
+- Re-implement the pattern in real feature files.
+- Do not paste example files into production code.
 
-### Layout & navigation
+## AI Agent Workflow (minimum path)
 
-Accordion, Collapsible, Navigation Menu, Menubar, Tabs, Separator
+### New page (5 steps)
 
-### Data display
+1. Add page in `src/pages/<FeatureName>.tsx`.
+2. Register route in `src/router/index.tsx`.
+3. Use existing UI primitives from `src/components/ui`.
+4. Add service calls through `src/lib/services.ts` when needed.
+5. Run `pnpm check`.
 
-Avatar, Card, Progress, Scroll Area, Aspect Ratio
+### New API flow (4 steps)
 
-### Form controls
+1. Define API call in `src/lib/api.ts` or service module.
+2. Add typed wrapper in `src/lib/services.ts`.
+3. Consume from page/component through the service wrapper.
+4. Run `pnpm check`.
 
-Button, Checkbox, Input, Label, Radio Group, Select, Slider, Switch, Textarea, Toggle, Toggle Group
+## Stack
 
-### Overlays
-
-Alert Dialog, Dialog, Dropdown Menu, Popover, Tooltip
-
-### Form system
-
-Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage
-
-## Development notes
-
-### Components
-
-```typescript
-// Typical component shape
-interface ComponentProps {
-  title: string;
-  items: Item[];
-  onAction?: (id: string) => void;
-}
-
-export const Component: React.FC<ComponentProps> = ({ title, items, onAction }) => {
-  return (
-    <div className="component">
-      <h2>{title}</h2>
-      {/* ... */}
-    </div>
-  );
-};
-```
-
-### API usage
-
-```typescript
-// Define calls in lib/api.ts (or a dedicated module)
-export const exampleApi = {
-  getData: (params: ListParams) =>
-    api.get<ListResult<Data>>('/api/data', { params }),
-  createItem: (data: CreateData) => api.post<Data>('/api/data', data),
-};
-
-// 1. useApi — loading/error + refetch (useCallback inside)
-const { data, loading, error, refetch } = useApi(() =>
-  exampleApi.getData(params)
-);
-
-// 2. extractApiData — unwrap { code, data, message }
-import { extractApiData } from '@/lib/api';
-const result = extractApiData<MyData>(response);
-
-// 3. streamRequest — SSE-style streams
-await streamRequest('/api/chat', { prompt: 'hello' }, res => {
-  console.log(res);
-});
-```
-
-### Forms
-
-```typescript
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-
-const formSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-});
-
-export function UserForm() {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: { email: '', password: '' },
-  });
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>{/* fields */}</form>
-    </Form>
-  );
-}
-```
-
-## Conventions
-
-- TypeScript strict mode
-- Function components and hooks
-- Tailwind for styling
-- `PascalCase` components, `camelCase` utilities
-
-## Deploy
-
-```bash
-pnpm build
-# Output: dist/ — deploy to any static host
-```
-
-## AI assistants
-
-This template is structured for codegen tools:
-
-- Prefer clarity and consistency with existing patterns
-- Match architecture and naming in the repo
-- Comment non-obvious logic
-- Consider performance and security
-
-## Example files
-
-Under `src/examples/` — **reference only**, not production-ready drop-ins.
-
-| Goal              | File                    | Highlights                                    |
-| ----------------- | ----------------------- | --------------------------------------------- |
-| Backend API calls | `api-example.ts`        | Types, wrappers, `extractApiData`             |
-| Forms             | `form-example.tsx`      | Zod, `useForm`, `FormField`                   |
-| List / CRUD UI    | `list-page-example.tsx` | `useApi`, pagination, search, loading / empty |
-
-1. Read for patterns
-2. Reuse structure in your own code
-3. Do not copy verbatim into production
+- React 18
+- Vite
+- TypeScript (strict)
+- Tailwind CSS
+- Radix UI primitives
+- React Hook Form + Zod
+- Axios
 
 ## License
 
 MIT License
-
-## Contributing
-
-Issues and pull requests are welcome.
-
----
-
-**Always use pnpm for package management.**

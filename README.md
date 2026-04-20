@@ -10,7 +10,7 @@
 xagi-frontend-templates/
 ├── packages/                    # 模板包
 │   ├── react-vite/             # React + Vite + TypeScript
-│   ├── vue3-vite/              # Vue 3 + Vite + TypeScript  
+│   ├── vue3-vite/              # Vue 3 + Vite + TypeScript
 │   └── react-next/             # React + Next.js + TypeScript + Tailwind CSS
 ├── scripts/                     # 管理脚本
 ├── package.json                # 根包配置
@@ -40,13 +40,14 @@ pnpm dev
 # 构建所有模板
 pnpm build
 
-# 运行测试
-node scripts/test-all.js
+# 运行模板验收脚本（版本一致性 + check + build）
+./test-templates.sh
 ```
 
 ## 📦 可用模板
 
 ### React + Vite
+
 - **包名**: `@xagi-templates/react-vite`
 - **路径**: `packages/react-vite/`
 - **端口**: 3000
@@ -63,6 +64,7 @@ node scripts/test-all.js
   - 统一的错误处理
 
 ### Vue3 + Vite
+
 - **包名**: `@xagi-templates/vue3-vite`
 - **路径**: `packages/vue3-vite/`
 - **端口**: 4000
@@ -79,6 +81,7 @@ node scripts/test-all.js
   - 统一的错误处理
 
 ### React + Next.js
+
 - **包名**: `@xagi-templates/react-next`
 - **路径**: `packages/react-next/`
 - **端口**: 3000
@@ -106,6 +109,8 @@ pnpm build:production   # 生产环境构建
 pnpm lint               # 代码检查
 pnpm lint:fix           # 自动修复
 pnpm type-check         # 类型检查
+pnpm check:templates    # 仅检查 vue3-vite + react-vite（type-check + lint）
+pnpm check:versions     # 校验 package/meta/templates 版本一致性
 pnpm test               # 运行测试
 pnpm clean              # 清理构建产物
 ```
@@ -169,12 +174,14 @@ cat templates.json
 ## 🔧 配置特性
 
 ### 统一配置
+
 - Prettier 代码格式化
 - TypeScript 类型检查
 - ESLint 代码规范
 - 统一的构建和测试流程
 
 ### 依赖管理
+
 - **pnpm workspace** 统一管理所有模板包
 - 共享依赖自动去重和优化
 - 独立的包版本控制和隔离
@@ -183,6 +190,7 @@ cat templates.json
 - 自动peer依赖安装
 
 ### 开发体验
+
 - 并行开发服务器启动
 - 热重载和快速构建支持
 - 统一的命令接口和脚本

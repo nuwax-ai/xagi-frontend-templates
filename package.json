@@ -13,6 +13,8 @@
     "lint": "pnpm -r lint",
     "lint:fix": "pnpm -r lint:fix",
     "type-check": "pnpm -r type-check",
+    "check:templates": "pnpm -C packages/vue3-vite run check && pnpm -C packages/react-vite run check",
+    "check:versions": "node scripts/check-versions.js",
     "test": "pnpm -r test",
     "clean": "pnpm -r clean",
     "install:all": "pnpm install",
