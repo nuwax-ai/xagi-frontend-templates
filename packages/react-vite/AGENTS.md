@@ -9,18 +9,18 @@ Modern React 18 + Vite + TypeScript frontend template, structured for AI coding 
 - **Framework**: React 18
 - **Bundler**: Vite
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI**: Radix UI (27 primitives)
+- **Styling**: Tailwind CSS + PostCSS
+- **UI primitives**: Radix UI based UI set (`src/components/ui`)
 - **Forms**: React Hook Form + Zod
 - **HTTP**: Axios
 - **Package manager**: pnpm (required)
 
 ## Layout
 
-```
+```text
 src/
 ├── components/
-│   └── ui/              # Radix-based primitives (28)
+│   └── ui/              # Radix-based primitives
 ├── examples/            # Reference examples
 │   ├── api-example.ts
 │   ├── form-example.tsx
@@ -28,7 +28,7 @@ src/
 ├── lib/
 │   ├── api.ts           # HTTP client + extractApiData
 │   ├── services.ts      # useApi + streamRequest
-│   └── utils.ts         # cn, debounce, throttle, formatDate, …
+│   └── utils.ts         # cn, debounce, throttle, formatDate, ...
 ├── pages/
 │   ├── Home.tsx
 │   └── NotFound.tsx
@@ -45,24 +45,24 @@ Follow these when adding code:
 
 ### File placement
 
-| Kind        | Location                         | Notes                                      |
-| ----------- | -------------------------------- | ------------------------------------------ |
-| Pages       | `src/pages/`                     | Register routes in `router/index.tsx`      |
-| Components  | `src/components/`                | Reusable UI                                |
-| API helpers | `src/lib/api.ts` or dedicated    | Use `extractApiData` for wrapped responses |
-| Types       | Colocated in feature files       | Match backend contracts                    |
+| Kind | Location | Notes |
+| --- | --- | --- |
+| Pages | `src/pages/` | Register routes in `router/index.tsx` |
+| Components | `src/components/` | Reusable UI |
+| API helpers | `src/lib/api.ts` or dedicated services | Use `extractApiData` for wrapped responses |
+| Types | Colocated in feature files | Match backend contracts |
 
 ### Types
 
 ```typescript
 // Good: define types next to usage (see examples/api-example.ts)
-interface ApiResponse<T = unknown> {
+interface ApiEnvelope<T = unknown> {
   code: number;
   data: T;
   message: string;
 }
 
-const response = await api.get<ApiResponse<User>>('/api/user');
+const response = await api.get<ApiEnvelope<User>>('/api/user');
 const user = extractApiData<User>(response);
 ```
 
@@ -72,14 +72,14 @@ const user = extractApiData<User>(response);
 const { data, loading, error, refetch } = useApi(() => userApi.getList(params), [params]);
 
 await streamRequest<ChatMessage>(url, payload, (msg) => {
-  /* … */
+  // handle stream chunk
 });
 ```
 
 ### Forms
 
 ```typescript
-const schema = z.object({ name: z.string().min(1) });
+const schema = z.object({ name: z.string().min(1, 'Name is required') });
 const form = useForm({ resolver: zodResolver(schema) });
 ```
 
@@ -87,7 +87,7 @@ const form = useForm({ resolver: zodResolver(schema) });
 
 ```tsx
 // Good
-<div className="flex items-center gap-4 p-6 bg-white rounded-lg shadow" />
+<div className="flex items-center gap-4 rounded-lg bg-white p-6 shadow" />
 
 // Avoid
 <div style={{ display: 'flex' }} />
@@ -97,23 +97,24 @@ const form = useForm({ resolver: zodResolver(schema) });
 
 `src/examples/` is **not** for production copy-paste.
 
-| Scenario        | File                     | Topics                                   |
-| --------------- | ------------------------ | ---------------------------------------- |
-| HTTP + types    | `api-example.ts`         | Types, API wrappers, `extractApiData`    |
-| Forms           | `form-example.tsx`       | Zod, `useForm`, `FormField`              |
-| Lists / CRUD    | `list-page-example.tsx`  | `useApi`, pagination, search, empty state |
+| Scenario | File | Topics |
+| --- | --- | --- |
+| HTTP + types | `api-example.ts` | Types, API wrappers, `extractApiData` |
+| Forms | `form-example.tsx` | Zod, RHF, form field wiring |
+| Lists / CRUD | `list-page-example.tsx` | `useApi`, pagination, search, empty state |
 
-1. Read for patterns  
-2. Implement your own modules  
-3. Do not paste examples wholesale into prod  
+1. Read for patterns
+2. Implement your own modules
+3. Do not paste examples wholesale into prod
 
 ## Commands
 
 ```bash
-pnpm run dev       # Dev server
-pnpm run build     # Build
-pnpm run preview   # Preview build
-pnpm run lint      # ESLint
+pnpm run dev         # Dev server
+pnpm run build       # Build
+pnpm run preview     # Preview build
+pnpm run lint        # ESLint
+pnpm run type-check  # Type check
 ```
 
 ## Package manager
@@ -122,57 +123,64 @@ pnpm run lint      # ESLint
 - **Do not** use npm or yarn for dependencies in this package.
 - Install: `pnpm install` · Dev: `pnpm dev` · Build: `pnpm build`
 
-### Why pnpm?
+## Tooling config files
 
-Faster installs, disk efficiency, stricter graph, good workspace support.
+- `components.json`
+  - Uses `ui.shadcn.com` schema.
+  - Global CSS: `src/index.css`.
+  - Aliases: `@/components`, `@/components/ui`, `@/lib`, `@/lib/utils`.
+- `biome.json`
+  - Lint rules only (`formatter.enabled = false`) to avoid Prettier conflicts.
+  - Include pattern targets source scripts: `src/**/*.{js,jsx,ts,tsx}`.
 
 ## Conventions
 
-- TypeScript strict mode  
-- Function components  
-- Tailwind-first styling  
-- `PascalCase` components, `camelCase` helpers  
+- TypeScript strict mode
+- Function components + hooks
+- Tailwind-first styling
+- `PascalCase` components, `camelCase` helpers
 
 ## Component guidelines
 
-1. Prefer function components  
-2. Hooks for state and effects  
-3. Typed props  
-4. `React.memo` when it helps  
-5. Small, focused components  
+1. Keep components focused and single-purpose
+2. Type props and callbacks explicitly
+3. Prefer composition over deeply nested conditionals
+4. Add comments only for non-obvious logic
+5. Use accessibility-friendly primitives from `src/components/ui`
 
 ## State
 
-1. `useState` / `useReducer` first  
-2. Context for cross-cutting state  
-3. External stores only when complexity warrants  
-4. Avoid unnecessary lifting  
+1. `useState` / `useReducer` first
+2. Use context for cross-cutting concerns
+3. Introduce external store only when complexity requires it
+4. Avoid unnecessary state lifting
 
 ## API layer
 
-1. HTTP via `src/lib/api.ts`  
-2. `extractApiData<T>()` for `{ code, data, message }` style APIs  
-3. `useApi` for loading / error  
-4. `streamRequest` for SSE-style streams  
-5. Prefer `async/await` and consistent error handling  
+1. HTTP via `src/lib/api.ts`
+2. `extractApiData<T>()` for `{ code, data, message }` style APIs
+3. `useApi` for loading / error / refetch state
+4. `streamRequest` for SSE-style streams
+5. Prefer `async/await` and consistent error handling
 
 ## Styling
 
-1. Tailwind utility classes  
-2. CSS Modules only when needed  
-3. Consistent spacing and tokens  
-4. Mobile-first responsive layout  
+1. Tailwind utility classes first
+2. Use `cn()` from `src/lib/utils.ts` for class merging
+3. CSS modules only when utility classes become hard to maintain
+4. Keep layout mobile-first and responsive
 
 ## Common dependencies
 
-- `react`, `react-dom`  
-- `axios`  
-- `tailwindcss`  
-- `typescript`  
+- `react`, `react-dom`, `react-router-dom`
+- `axios`
+- `zod`, `react-hook-form`, `@hookform/resolvers`
+- `class-variance-authority`, `clsx`, `tailwind-merge`
+- `typescript`
 
 ## Commit message style
 
-```
+```text
 feat: new feature
 fix: bug fix
 docs: documentation
@@ -184,74 +192,7 @@ chore: tooling / build
 
 ## Hints for AI
 
-- Readability and consistency with existing code  
-- Follow established folder and naming patterns  
-- Comment non-obvious logic  
-- Think about performance and security  
-
-## Forms (React Hook Form + Zod)
-
-Built-in form primitives wrap RHF + Zod.
-
-- **Form** — RHF context  
-- **FormField** — field + validation wiring  
-- **FormItem**, **FormLabel**, **FormControl**, **FormDescription**, **FormMessage**  
-
-```typescript
-const formSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-});
-
-<Form {...form}>
-  <form onSubmit={form.handleSubmit(onSubmit)}>
-    <FormField
-      control={form.control}
-      name="email"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Email</FormLabel>
-          <FormControl>
-            <Input {...field} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  </form>
-</Form>
-```
-
-### Form best practices
-
-- Validate with Zod schemas  
-- Surface errors clearly  
-- Compose with Radix/shadcn-style primitives  
-- Keep accessibility in mind  
-- Leverage TypeScript end-to-end  
-
-## Radix UI set (27)
-
-### Layout & navigation
-
-Accordion, Collapsible, Navigation Menu, Menubar, Tabs, Separator  
-
-### Data display
-
-Avatar, Card, Progress, Scroll Area, Aspect Ratio  
-
-### Controls
-
-Button, Checkbox, Input, Label, Radio Group, Select, Slider, Switch, Textarea, Toggle, Toggle Group  
-
-### Overlays
-
-Alert Dialog, Dialog, Dropdown Menu, Popover, Tooltip  
-
-### Form system
-
-Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage  
-
-### Traits
-
-Typed APIs, accessibility-oriented, responsive defaults, Tailwind-friendly styling, consistent patterns.
+- Prioritize readability and consistency with existing code
+- Follow established folder and naming patterns
+- Keep type definitions close to usage
+- Validate behavior with `src/examples/` scenarios when relevant
