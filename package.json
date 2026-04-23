@@ -1,7 +1,7 @@
 {
   "name": "xagi-frontend-templates",
-  "version": "1.0.0",
-  "description": "XAGI Frontend Templates - 现代化前端项目模板集合",
+  "version": "1.2.1",
+  "description": "XAGI Frontend Templates - Modern frontend project template collection",
   "private": true,
   "workspaces": [
     "packages/*"
