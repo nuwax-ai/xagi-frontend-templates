@@ -2,17 +2,23 @@
 
 ## 功能说明
 
-提供两个脚本用于模板部署：
+提供四个脚本用于模板部署与重启：
 
 1. **`deploy-templates.sh`** - 完整部署流程（推荐）
    - 打包所有模板
    - 上传到远程服务器
-   - 自动解压
-   - 重启 rcoder 容器
+   - 重启 rcoder 容器内 `nuwax-file-server` 进程（不重启整个容器）
 
 2. **`upload-templates.sh`** - 仅上传已有的 zip 文件
    - 适用于已经打包好的情况
-   - 上传、解压、重启容器
+   - 仅上传文件，不执行任何重启
+
+3. **`restart-file-server.sh`** - 仅重启 `nuwax-file-server` 进程
+   - 在 `rcoder` 容器内先停止旧进程，再拉起新进程
+   - 内置健康检查
+
+4. **`restart-rcoder.sh`** - 仅重启 `rcoder` 容器
+   - 与 file-server 进程重启完全解耦
 
 ## 前置要求
 
@@ -49,7 +55,7 @@ REMOTE_PATH=/home/swufe/nuwax/docker/config/rcoder/template
 
 ### 方式一: 完整部署（推荐）
 
-一键完成打包、上传、解压、重启：
+一键完成打包、上传并重启容器内 file-server：
 
 ```bash
 # 使用 npm script（推荐）
@@ -62,8 +68,7 @@ pnpm deploy:templates
 这个脚本会：
 1. 使用 `pnpm pack:all` 打包所有模板
 2. 上传 react-vite 和 vue3-vite 到远程服务器
-3. 自动解压文件
-4. 自动重启 rcoder 容器
+3. 重启 rcoder 容器内 `nuwax-file-server` 进程
 
 ### 方式二: 仅上传
 
@@ -77,6 +82,26 @@ pnpm upload:templates
 ./scripts/upload-templates.sh
 ```
 
+### 方式三: 仅重启 file-server
+
+```bash
+# 使用 npm script（推荐）
+pnpm restart:file-server
+
+# 或直接运行脚本
+./scripts/restart-file-server.sh
+```
+
+### 方式四: 仅重启 rcoder 容器
+
+```bash
+# 使用 npm script（推荐）
+pnpm restart:rcoder
+
+# 或直接运行脚本
+./scripts/restart-rcoder.sh
+```
+
 ### 脚本执行流程
 
 1. 加载 `.env` 配置
@@ -88,8 +113,6 @@ pnpm upload:templates
    - `react-vite-template.zip`
    - `vue3-vite-template.zip`
 5. 上传到远程服务器
-6. 自动在远程服务器上解压文件
-7. 自动查找并重启 rcoder 容器
 
 ### 上传的文件
 
@@ -119,8 +142,8 @@ pnpm upload:templates
 脚本会自动完成以下操作：
 
 1. **上传模板文件** - 上传最新的 react-vite 和 vue3-vite 模板
-2. **解压文件** - 在远程服务器上自动解压模板文件
-3. **重启容器** - 自动查找 rcoder 容器并重启，使新模板生效
+2. **重启 file-server 进程** - 在 rcoder 容器内重启 `nuwax-file-server`
+3. **容器重启（可选）** - 如有需要，手动执行 `restart-rcoder.sh`
 
 无需手动干预，一键完成整个部署流程。
 

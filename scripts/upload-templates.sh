@@ -98,3 +98,7 @@ fi
 
 echo ""
 echo "所有模板上传完成！"
+echo ""
+echo "提示: file-server 重启与 rcoder 容器重启已拆分为独立脚本"
+echo "如需重启 file-server: ./scripts/restart-file-server.sh"
+echo "如需重启 rcoder 容器: ./scripts/restart-rcoder.sh"

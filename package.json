@@ -26,7 +26,9 @@
     "pack:all": "pnpm pack:clean && pnpm pack:react-vite && pnpm pack:react-next && pnpm pack:vue3-vite",
     "pack:clean": "rm -rf zip/*.zip",
     "deploy:templates": "./scripts/deploy-templates.sh",
-    "upload:templates": "./scripts/upload-templates.sh"
+    "upload:templates": "./scripts/upload-templates.sh",
+    "restart:file-server": "./scripts/restart-file-server.sh",
+    "restart:rcoder": "./scripts/restart-rcoder.sh"
   },
   "devDependencies": {
     "typescript": "^5.2.2",
