@@ -24,7 +24,9 @@
     "pack:react-next": "node scripts/pack-template.js react-next",
     "pack:vue3-vite": "node scripts/pack-template.js vue3-vite",
     "pack:all": "pnpm pack:clean && pnpm pack:react-vite && pnpm pack:react-next && pnpm pack:vue3-vite",
-    "pack:clean": "rm -rf zip/*.zip"
+    "pack:clean": "rm -rf zip/*.zip",
+    "deploy:templates": "./scripts/deploy-templates.sh",
+    "upload:templates": "./scripts/upload-templates.sh"
   },
   "devDependencies": {
     "typescript": "^5.2.2",

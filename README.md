@@ -115,6 +115,28 @@ pnpm test               # 运行测试
 pnpm clean              # 清理构建产物
 ```
 
+### 模板打包命令
+
+```bash
+pnpm pack:react-vite    # 打包 React Vite 模板
+pnpm pack:vue3-vite     # 打包 Vue3 Vite 模板
+pnpm pack:react-next    # 打包 React Next.js 模板
+pnpm pack:all           # 打包所有模板
+pnpm pack:clean         # 清理 zip 文件
+```
+
+### 模板部署命令
+
+```bash
+pnpm deploy:templates   # 完整部署流程（打包 + 上传 + 解压 + 重启容器）
+pnpm upload:templates   # 仅上传已有的 zip 文件到远程服务器
+```
+
+**部署说明**：
+- `pnpm deploy:templates` 会自动打包所有模板，然后上传 react-vite 和 vue3-vite 到远程服务器，并自动解压和重启 rcoder 容器
+- `pnpm upload:templates` 适用于已经打包好的情况，直接上传、解压和重启
+- 详细配置请参考 [scripts/README.md](./scripts/README.md)
+
 ### 单独开发模板
 
 ```bash
