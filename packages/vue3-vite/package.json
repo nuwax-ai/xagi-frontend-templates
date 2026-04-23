@@ -1,6 +1,6 @@
 {
   "name": "@xagi-templates/vue3-vite",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Vue 3 + Vite + TypeScript starter template for modern web apps",
   "private": true,
   "type": "module",
@@ -38,7 +38,6 @@
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "@vitejs/plugin-vue": "^4.5.2",
-    "@xagi/vite-plugin-design-mode": "^1.1.0-beta.11",
     "autoprefixer": "^10.4.21",
     "eslint": "8",
     "eslint-plugin-vue": "^9.30.0",

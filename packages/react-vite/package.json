@@ -1,6 +1,6 @@
 {
   "name": "@xagi-templates/react-vite",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "React + Vite + TypeScript starter — modern React app template powered by Vite",
   "private": true,
   "type": "module",
@@ -68,7 +68,6 @@
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "@vitejs/plugin-react": "^4.2.1",
-    "@xagi/vite-plugin-design-mode": "^1.1.0-beta.7",
     "autoprefixer": "^10.4.20",
     "eslint": "8",
     "eslint-plugin-react": "7",
