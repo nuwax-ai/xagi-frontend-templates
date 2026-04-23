@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 完整部署脚本
-# 用途: 打包模板 -> 上传到远程服务器 -> 解压 -> 重启容器
+# 用途: 打包模板 -> 上传到远程服务器 -> 重启容器
 
 set -e
 
@@ -15,7 +15,7 @@ echo "=========================================="
 echo ""
 
 # 步骤 1: 打包模板
-echo "步骤 1/4: 打包模板"
+echo "步骤 1/3: 打包模板"
 echo "------------------------------------------"
 cd "$PROJECT_ROOT"
 
@@ -30,10 +30,47 @@ echo "打包文件列表:"
 ls -lh "$PROJECT_ROOT/zip/"
 echo ""
 
-# 步骤 2-4: 上传、解压、重启
-echo "步骤 2-4: 上传、解压、重启容器"
+# 步骤 2: 上传模板文件
+echo "步骤 2/3: 上传模板文件"
 echo "------------------------------------------"
 "$SCRIPT_DIR/upload-templates.sh"
+
+# 步骤 3: 重启容器
+echo ""
+echo "步骤 3/3: 重启 rcoder 容器"
+echo "------------------------------------------"
+
+# 加载环境变量
+if [ -f "$PROJECT_ROOT/.env" ]; then
+    source "$PROJECT_ROOT/.env"
+else
+    echo "错误: .env 文件不存在"
+    exit 1
+fi
+
+echo "正在连接远程服务器重启容器..."
+
+sshpass -p "$REMOTE_PASSWORD" ssh -o StrictHostKeyChecking=no \
+    "$REMOTE_USER@$REMOTE_HOST" << 'EOF'
+echo "查找 rcoder 容器..."
+RCODER_CONTAINER=$(docker ps --filter "name=rcoder" --format "{{.ID}}" | head -1)
+
+if [ -z "$RCODER_CONTAINER" ]; then
+    echo "警告: 未找到 rcoder 容器"
+    echo "尝试查找所有包含 'rcoder' 的容器..."
+    docker ps --filter "name=rcoder" --format "table {{.ID}}\t{{.Names}}\t{{.Status}}"
+else
+    echo "找到 rcoder 容器: $RCODER_CONTAINER"
+    echo "正在重启容器..."
+    docker restart $RCODER_CONTAINER
+    if [ $? -eq 0 ]; then
+        echo "✓ rcoder 容器重启成功"
+    else
+        echo "✗ rcoder 容器重启失败"
+        exit 1
+    fi
+fi
+EOF
 
 echo ""
 echo "=========================================="
