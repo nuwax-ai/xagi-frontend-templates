@@ -69,6 +69,8 @@
 ├── tailwind.config.js          # [必要] TailwindCSS 配置
 ├── postcss.config.js           # [必要] PostCSS 配置
 ├── components.json             # [可选] shadcn/ui 组件配置
+├── AGENTS.md                   # [可选] AI Agent 规则文件
+├── CLAUDE.md                   # [可选] AI Agent 规则文件（与 AGENTS.md 保持一致）
 ├── .prettierrc                 # [可选] Prettier 格式化配置
 ├── .eslintrc.json              # [可选] ESLint 配置
 ├── .editorconfig               # [可选] 编辑器配置
@@ -104,6 +106,8 @@
 ├── tailwind.config.js          # [必要] TailwindCSS 配置
 ├── postcss.config.js           # [必要] PostCSS 配置
 ├── components.json             # [可选] shadcn-vue 组件配置
+├── AGENTS.md                   # [可选] AI Agent 规则文件
+├── CLAUDE.md                   # [可选] AI Agent 规则文件（与 AGENTS.md 保持一致）
 ├── .prettierrc                 # [可选] Prettier 格式化配置
 ├── .eslintrc.cjs               # [可选] ESLint 配置
 ├── .editorconfig               # [可选] 编辑器配置
@@ -358,6 +362,65 @@ Vue（shadcn-vue）：
   "iconLibrary": "lucide"
 }
 ```
+
+### 4.7 `AGENTS.md` / `CLAUDE.md` **[可选]**
+
+AI Agent 规则文件，用于指导 AI 编码助手（如 Cursor、Claude Code 等）在模板中高效、一致地开发功能。两个文件内容应保持一致，以兼容不同 AI 工具链。
+
+**[可选]** 但强烈推荐包含，可显著提升 AI 辅助开发的质量和一致性。
+
+文件必须包含以下通用章节：
+
+#### 必须包含的章节
+
+```markdown
+# <React|Vue> Vite 模板 — Agent 规则
+
+## 目标
+
+使用确定性规则指导 AI Agent 高效交付功能，减少猜测。
+
+## 命令约定
+
+仅使用 `pnpm`。
+
+## 任务入口（始终遵循）
+
+1. 用一句话确认目标模板和功能目标。
+2. 定位对应模块区域（pages、components、lib、router）。
+3. 复用 src/examples 和 src/components/ui 中的已有模式。
+4. 使用框架原生风格实现（React 函数组件 + hooks / Vue Composition API + <script setup lang="ts">）。
+5. 完成前运行 `pnpm check`。
+
+## 同构结构映射
+
+| 关注点     | 路径位置                    |
+| ---------- | --------------------------- |
+| 路由页面   | src/pages/*.<tsx|vue>       |
+| 通用组件   | src/components/**           |
+| API 客户端 | src/lib/api.ts              |
+| 服务层     | src/lib/services.ts         |
+| 工具函数   | src/lib/utils.ts            |
+| 路由注册   | src/router/index.<tsx|ts>   |
+
+## 最小交付路径
+
+### 新建页面（5 步）
+### 新建组件（4 步）
+### 新建 API 流程（4 步）
+
+## 允许的变更
+## 禁止的变更
+## 提交前检查清单
+```
+
+#### 关键要求
+
+- **通用性**：文件中不得包含任何组织名称、品牌名称或内部系统代号
+- **命令约定**：必须列出 `dev`、`build`、`type-check`、`lint`、`check` 五个命令
+- **结构映射**：路径必须与模板实际目录结构一致
+- **交付路径**：新建页面、组件、API 流程的步骤必须与实际约定一致
+- **提交前检查清单**：必须要求 `pnpm check` 通过
 
 ---
 
@@ -937,6 +1000,7 @@ src/                          # 完整源码目录
 - [ ] `src/pages/` 页面目录含 `Home` 和 `NotFound`
 - [ ] `src/components/` 组件目录存在
 - [ ] `src/lib/utils.ts` 含 `cn()` 函数
+- [ ] `AGENTS.md` / `CLAUDE.md` 存在且内容通用（无组织/品牌特定名称）（如提供）
 
 ### 路由
 
@@ -972,7 +1036,7 @@ src/                          # 完整源码目录
 
 接入方将以 Nuwax 应用开发平台提供的标准模板（`react-vite` / `vue3-vite`）作为基线，在遵循本规范的前提下进行业务开发。
 
-标准模板仓库：`https://github.com/shareAI-lab/xagi-frontend-templates`
+标准模板仓库：`https://github.com/nuwax-ai/xagi-frontend-templates`
 
 - React Vite 模板路径：`packages/react-vite/`
 - Vue 3 Vite 模板路径：`packages/vue3-vite/`
