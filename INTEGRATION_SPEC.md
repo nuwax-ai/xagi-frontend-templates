@@ -28,7 +28,7 @@
 
 本文档定义了接入 Nuwax 应用开发平台的前端模板必须遵循的结构、配置和代码规范。
 
-百特搭团队需按照本规范交付符合平台标准的模板项目，以确保：
+接入方需按照本规范交付符合平台标准的模板项目，以确保：
 
 - 模板可在 Nuwax 应用开发平台上正确运行（Hash 路由、静态托管兼容）
 - 构建产物符合平台部署要求
@@ -39,7 +39,7 @@
 | 标记 | 含义 |
 |------|------|
 | **[必要]** | 不满足则无法通过验收，模板不可接入平台 |
-| **[可选]** | 推荐采用，但可由百特搭团队根据业务需求自行决定 |
+| **[可选]** | 推荐采用，但可由接入方根据业务需求自行决定 |
 
 ---
 
@@ -135,7 +135,7 @@
 
 ```jsonc
 {
-  "name": "@xagi-templates/<template-name>",  // [必要] 遵循 @xagi-templates 命名空间（百特搭可自定义 name，但须保持 scoped 格式）
+  "name": "@xagi-templates/<template-name>",  // [必要] 遵循 @xagi-templates 命名空间（可自定义 name，但须保持 scoped 格式）
   "version": "<version>",                       // [必要] 语义化版本，与 meta.json 保持一致
   "private": true,                             // [必要] 标记为私有包
   "type": "module",                            // [必要] ESM 模块系统
@@ -260,7 +260,7 @@ Vue 模板额外需要：**[必要]**
   "name": "React + Vite",           // 或 "Vue 3 + Vite"
   "description": "模板描述",
   "version": "<version>",               // [必要] 与 package.json 版本保持一致
-  "author": "百特搭",
+  "author": "<author>",
   "framework": "react",             // [必要] "react" 或 "vue"
   "bundler": "vite",                // [必要] 固定为 "vite"
   "language": "typescript",          // [必要] 固定为 "typescript"
@@ -386,7 +386,7 @@ export default {
 
 ### 5.2 `tailwind.config.js` Safelist **[必要]**
 
-**[必要]** 由于平台需要通过类名字符串动态组合样式（如百特搭低代码场景），**必须将所有常用 Tailwind 工具类加入 safelist**，防止构建时被 tree-shake 误删。
+**[必要]** 由于平台需要通过类名字符串动态组合样式（如低代码设计模式场景），**必须将所有常用 Tailwind 工具类加入 safelist**，防止构建时被 tree-shake 误删。
 
 需要覆盖的 safelist 类别：
 
@@ -441,7 +441,7 @@ export default {
 }
 ```
 
-> **重要**：标准模板中已包含完整的 safelist 生成函数，百特搭可直接复用 `tailwind.config.js`，无需自行编写。
+> **重要**：标准模板中已包含完整的 safelist 生成函数，可直接复用 `tailwind.config.js`，无需自行编写。
 
 ### 5.3 自定义主题 **[必要]**
 
@@ -701,7 +701,7 @@ export function useApi<T>(apiCall: () => Promise<T>, options?: UseApiOptions) {
 
 ### 8.1 组件库选择 **[可选]**
 
-以下为平台标准模板使用的 UI 组件方案，百特搭可自行选择其他方案：
+以下为平台标准模板使用的 UI 组件方案，接入方可自行选择其他方案：
 
 | 模板 | 推荐方案 | 组件基元 | 图标库 |
 |------|----------|----------|--------|
@@ -818,7 +818,7 @@ pnpm -C packages/vue3-vite run build         # Vue 构建
 
 ### 10.1 打包方式 **[必要]**
 
-百特搭交付的模板以 zip 包形式提交，结构如下：
+接入方交付的模板以 zip 包形式提交，结构如下：
 
 ```
 <template-name>-template_<version>_<timestamp>.zip
@@ -888,7 +888,7 @@ src/                          # 完整源码目录
 
 ## 12. React / Vue 对照表
 
-以下是两个模板在等价功能上的对照，方便百特搭团队跨框架参考：
+以下是两个模板在等价功能上的对照，方便跨框架参考：
 
 | 关注点 | react-vite | vue3-vite |
 |--------|-----------|-----------|
@@ -970,7 +970,7 @@ src/                          # 完整源码目录
 
 ## 附录：标准模板获取
 
-百特搭团队将以 Nuwax 应用开发平台提供的标准模板（`react-vite` / `vue3-vite`）作为基线，在遵循本规范的前提下进行业务开发。
+接入方将以 Nuwax 应用开发平台提供的标准模板（`react-vite` / `vue3-vite`）作为基线，在遵循本规范的前提下进行业务开发。
 
 标准模板仓库：`https://github.com/shareAI-lab/xagi-frontend-templates`
 
