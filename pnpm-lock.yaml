@@ -328,9 +328,6 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.2.1
         version: 4.7.0(vite@5.4.21(@types/node@20.19.25))
-      '@xagi/vite-plugin-design-mode':
-        specifier: ^1.1.0-beta.7
-        version: 1.1.0-beta.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.21(@types/node@20.19.25))(vue@3.5.25(typescript@5.9.3))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.22(postcss@8.5.6)
@@ -414,8 +411,8 @@ importers:
         specifier: ^4.5.2
         version: 4.6.2(vite@5.4.21(@types/node@20.19.25))(vue@3.5.25(typescript@5.9.3))
       '@xagi/vite-plugin-design-mode':
-        specifier: ^1.1.0-beta.11
-        version: 1.1.0-beta.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.21(@types/node@20.19.25))(vue@3.5.25(typescript@5.9.3))
+        specifier: ^1.1.0
+        version: 1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.21(@types/node@20.19.25))(vue@3.5.25(typescript@5.9.3))
       autoprefixer:
         specifier: ^10.4.21
         version: 10.4.22(postcss@8.5.6)
@@ -2039,42 +2036,22 @@ packages:
   '@vueuse/shared@10.11.1':
     resolution: {integrity: sha512-LHpC8711VFZlDaYUXEBbFBCQ7GS3dVU9mjOhhMhXP6txTV4EhYQg/KGnQuvt/sPAtoUKq7VVUnL6mVtFoL42sA==}
 
-  '@xagi/design-mode-client-react@1.1.0-beta.11':
-    resolution: {integrity: sha512-DLxj2jLPG7Y9qcYyJxWfe+4j0PYcLWvIr7ZvakG0muPvvNw0ReG6KFN4Liw6Gpmqr67X20HXwwCTgvrB8CedKw==}
+  '@xagi/design-mode-client-react@1.2.0':
+    resolution: {integrity: sha512-BT+b4e3AgWWAH5gjBBAI3vEfKdmIpbTRSssyqy4J/U1jar0dSUYX5GYZ+szr9TxNFo7mHDUf+mIMh5d1VAdY0A==}
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
 
-  '@xagi/design-mode-client-react@1.1.0-beta.7':
-    resolution: {integrity: sha512-r8FdVts18FJPdpwybuwIQ0wmNM4aaG3aBWWyZhQxTQEn5vp59sa0rqWRgU9e2n3gp76IR5cKGaHHS0DGZmWovA==}
-    peerDependencies:
-      react: ^18.0.0
-      react-dom: ^18.0.0
-
-  '@xagi/design-mode-client-vue@1.1.0-beta.11':
-    resolution: {integrity: sha512-p+I/YQII346njUsnERjbHTNx4BiFeY1LVN2bwiakm4qlf+Ta5tqPJ4gdIIcGUSyROcjZaecqk7G+VcyKdKDYQQ==}
+  '@xagi/design-mode-client-vue@1.2.0':
+    resolution: {integrity: sha512-o1ENgruSLtUVYirBrCE5UDoyu+sNXmQX7EyjVcHvKpMBZ64wUdEMswoCYLbU4hnz/7vx1bbSNpRlxvn+lk/mTA==}
     peerDependencies:
       vue: ^3.3.0
 
-  '@xagi/design-mode-client-vue@1.1.0-beta.7':
-    resolution: {integrity: sha512-WKgcXWY3RD37A+k6iyHPeCHKnBdpOwXbr399Doc8gIbKIePU3dMhZG4/gCl3hlCj/4Sj8iwB9ZJYU8yrPFJKYA==}
-    peerDependencies:
-      vue: ^3.3.0
+  '@xagi/design-mode-shared@1.2.0':
+    resolution: {integrity: sha512-CK7icLDAdcmyQmEfe68zj6ahXR6Z3Of5oHqULztf71hRRcyWUlgU21P7l+9OHDdCsBDXKnN65hXHCtnkYQdxvA==}
 
-  '@xagi/design-mode-shared@1.1.0-beta.11':
-    resolution: {integrity: sha512-X+WaeDcpUem1TUZ81WjPq6N8CFthHRorrbUfngipayOboS6q6+cs0PXfDSB4aVCS2a5KeIBhpsSF1M83yrEQsg==}
-
-  '@xagi/design-mode-shared@1.1.0-beta.7':
-    resolution: {integrity: sha512-ksg23ZC7xHG37WyqpSr1HTnAX7q38ERBHHn0QWPkJIyl94b7Q0iCRmXA0tHDwmYo1De18LPtePF+DcM9JS+LgA==}
-
-  '@xagi/vite-plugin-design-mode@1.1.0-beta.11':
-    resolution: {integrity: sha512-v7lNaOCI3dIA34yHNsKK+AAlsb+E7SashS3B9Azdcs2gQPuuxMZZEUmx1OLImj7/YoL24r4bxwIDx7+9XIyFPA==}
-    hasBin: true
-    peerDependencies:
-      vite: ^4.0.0 || ^5.0.0
-
-  '@xagi/vite-plugin-design-mode@1.1.0-beta.7':
-    resolution: {integrity: sha512-kwiW4YhHkZ7QGk89/iZjiYrix6FFqCP5+6Rheuto5rM29ZnLyL12NtguF9RmABDPsVxipg+/nFDdAyb/HGj3rg==}
+  '@xagi/vite-plugin-design-mode@1.2.0':
+    resolution: {integrity: sha512-eayrnBMfWfg+QUcL1oaJxx5eZyK/Aaq6nd834dFvdxEQFIOFr/xOxx/QJBjpw/pT6NyjljmRb0IKCQHJNFlfhw==}
     hasBin: true
     peerDependencies:
       vite: ^4.0.0 || ^5.0.0
@@ -5907,61 +5884,31 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@xagi/design-mode-client-react@1.1.0-beta.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@xagi/design-mode-client-react@1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@xagi/design-mode-shared': 1.1.0-beta.11
+      '@xagi/design-mode-shared': 1.2.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       tailwind-merge: 3.4.0
 
-  '@xagi/design-mode-client-react@1.1.0-beta.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@xagi/design-mode-client-vue@1.2.0(vue@3.5.25(typescript@5.9.3))':
     dependencies:
-      '@xagi/design-mode-shared': 1.1.0-beta.7
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      tailwind-merge: 3.4.0
-
-  '@xagi/design-mode-client-vue@1.1.0-beta.11(vue@3.5.25(typescript@5.9.3))':
-    dependencies:
-      '@xagi/design-mode-shared': 1.1.0-beta.11
+      '@xagi/design-mode-shared': 1.2.0
       tailwind-merge: 3.4.0
       vue: 3.5.25(typescript@5.9.3)
 
-  '@xagi/design-mode-client-vue@1.1.0-beta.7(vue@3.5.25(typescript@5.9.3))':
-    dependencies:
-      '@xagi/design-mode-shared': 1.1.0-beta.7
-      tailwind-merge: 3.4.0
-      vue: 3.5.25(typescript@5.9.3)
+  '@xagi/design-mode-shared@1.2.0': {}
 
-  '@xagi/design-mode-shared@1.1.0-beta.11': {}
-
-  '@xagi/design-mode-shared@1.1.0-beta.7': {}
-
-  '@xagi/vite-plugin-design-mode@1.1.0-beta.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.21(@types/node@20.19.25))(vue@3.5.25(typescript@5.9.3))':
+  '@xagi/vite-plugin-design-mode@1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.21(@types/node@20.19.25))(vue@3.5.25(typescript@5.9.3))':
     dependencies:
       '@babel/standalone': 7.29.2
       '@babel/traverse': 7.29.0
+      '@babel/types': 7.29.0
       '@vue/compiler-dom': 3.5.33
       '@vue/compiler-sfc': 3.5.33
-      '@xagi/design-mode-client-react': 1.1.0-beta.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@xagi/design-mode-client-vue': 1.1.0-beta.11(vue@3.5.25(typescript@5.9.3))
-      '@xagi/design-mode-shared': 1.1.0-beta.11
-      vite: 5.4.21(@types/node@20.19.25)
-    transitivePeerDependencies:
-      - react
-      - react-dom
-      - supports-color
-      - vue
-
-  '@xagi/vite-plugin-design-mode@1.1.0-beta.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.4.21(@types/node@20.19.25))(vue@3.5.25(typescript@5.9.3))':
-    dependencies:
-      '@babel/standalone': 7.29.2
-      '@babel/traverse': 7.29.0
-      '@vue/compiler-dom': 3.5.33
-      '@vue/compiler-sfc': 3.5.33
-      '@xagi/design-mode-client-react': 1.1.0-beta.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@xagi/design-mode-client-vue': 1.1.0-beta.7(vue@3.5.25(typescript@5.9.3))
-      '@xagi/design-mode-shared': 1.1.0-beta.7
+      '@xagi/design-mode-client-react': 1.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@xagi/design-mode-client-vue': 1.2.0(vue@3.5.25(typescript@5.9.3))
+      '@xagi/design-mode-shared': 1.2.0
       vite: 5.4.21(@types/node@20.19.25)
     transitivePeerDependencies:
       - react

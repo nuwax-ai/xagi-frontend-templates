@@ -1,0 +1,8 @@
+{
+  "version": "0.0.0",
+  "tag": "",
+  "updatedAt": "",
+  "repository": "https://github.com/nuwax-ai/xagi-frontend-templates",
+  "downloadUrlPattern": "https://github.com/nuwax-ai/xagi-frontend-templates/releases/download/{tag}/{template}_{version}.zip",
+  "templates": {}
+}

@@ -21,11 +21,28 @@ const templateSpecs = [
     packagePath: 'packages/react-vite/package.json',
     metaPath: 'packages/react-vite/meta.json',
   },
+  {
+    id: 'react-next',
+    packagePath: 'packages/react-next/package.json',
+    metaPath: 'packages/react-next/meta.json',
+  },
 ]
 
+const rootPkg = readJson('package.json')
 const templatesRegistry = readJson('templates.json')
 let hasError = false
 
+// Check root package.json version vs templates.json root version
+if (rootPkg.version !== templatesRegistry.version) {
+  console.error(`\n[ERROR] Root version mismatch`)
+  console.error(`  package.json:    ${rootPkg.version}`)
+  console.error(`  templates.json:  ${templatesRegistry.version}`)
+  hasError = true
+} else {
+  console.log(`[OK] Root version aligned: ${rootPkg.version}`)
+}
+
+// Check each template
 for (const spec of templateSpecs) {
   const pkg = readJson(spec.packagePath)
   const meta = readJson(spec.metaPath)
@@ -37,11 +54,11 @@ for (const spec of templateSpecs) {
     continue
   }
 
-  const expectedVersion = pkg.version
+  const expectedVersion = rootPkg.version
   const actualVersions = {
-    package: pkg.version,
-    meta: meta.version,
-    registry: registryItem.version,
+    'package.json': pkg.version,
+    'meta.json': meta.version,
+    'templates.json': registryItem.version,
   }
 
   const mismatches = Object.entries(actualVersions).filter(([, value]) => value !== expectedVersion)
@@ -49,9 +66,10 @@ for (const spec of templateSpecs) {
   if (mismatches.length > 0) {
     hasError = true
     console.error(`\n[ERROR] Version mismatch for ${spec.id}`)
-    console.error(`  expected (package.json): ${expectedVersion}`)
-    console.error(`  actual meta.json: ${actualVersions.meta}`)
-    console.error(`  actual templates.json: ${actualVersions.registry}`)
+    console.error(`  expected (root):        ${expectedVersion}`)
+    for (const [source, value] of mismatches) {
+      console.error(`  actual ${source}: ${value}`)
+    }
   } else {
     console.log(`[OK] ${spec.id} version aligned: ${expectedVersion} (package/meta/templates)`)
   }
@@ -61,4 +79,4 @@ if (hasError) {
   process.exit(1)
 }
 
-console.log('\nVersion consistency check passed.')
+console.log('\n✅ Version consistency check passed.')

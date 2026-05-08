@@ -11,11 +11,13 @@ const { execSync } = require('child_process')
 
 // 获取命令行参数
 const templateName = process.argv[2]
+const isRelease = process.argv.includes('--release')
 
 if (!templateName) {
   console.error('❌ 请指定模板名称')
-  console.log('用法: node scripts/pack-template.js <template-name>')
+  console.log('用法: node scripts/pack-template.js <template-name> [--release]')
   console.log('可用模板: react-vite, react-next, vue3-vite')
+  console.log('  --release  生成稳定文件名（无时间戳），用于 GitHub Release')
   process.exit(1)
 }
 
@@ -84,10 +86,18 @@ const minutes = String(now.getMinutes()).padStart(2, '0')
 const seconds = String(now.getSeconds()).padStart(2, '0')
 const timestamp = `${year}_${month}_${day}_${hours}_${minutes}_${seconds}`
 
-// 生成文件名：如果有版本号，格式为 name_version_timestamp.zip，否则为 name_timestamp.zip
-const fileName = version
-  ? `${template.outputName}_${version}_${timestamp}.zip`
-  : `${template.outputName}_${timestamp}.zip`
+let fileName
+if (isRelease) {
+  if (!version) {
+    console.error('❌ Release 模式需要 package.json 中有 version 字段')
+    process.exit(1)
+  }
+  fileName = `${template.outputName}_${version}.zip`
+} else {
+  fileName = version
+    ? `${template.outputName}_${version}_${timestamp}.zip`
+    : `${template.outputName}_${timestamp}.zip`
+}
 const outputFile = path.join(outputDir, fileName)
 
 // 清除之前的包（匹配该模板的所有旧文件）
